@@ -20,7 +20,10 @@ oh-my-skills/
 │   ├── got-controller/SKILL.md
 │   ├── research-executor/SKILL.md
 │   ├── synthesizer/SKILL.md
-│   └── citation-validator/SKILL.md
+│   ├── citation-validator/SKILL.md
+│   └── patent-architect/
+│       ├── README.md
+│       └── SKILL.md
 ├── mcp/
 │   └── grok-search/
 │       ├── README.md
@@ -51,6 +54,7 @@ oh-my-skills/
 | `research-executor` | 执行完整研究流程并产出目录化结果 | 问题边界已经明确 |
 | `synthesizer` | 把多路结果收口成统一叙事 | 多个子研究已经完成 |
 | `citation-validator` | 检查事实与引用质量 | 报告定稿前、对外分享前 |
+| `patent-architect` | 做专利挖掘、可专利性评估和中文专利材料整理 | 需要从项目或方案里提炼创新点时 |
 
 ## Included MCP
 
@@ -64,9 +68,17 @@ oh-my-skills/
 2. 参照 `mcp/grok-search/.env.example` 配置 MCP，不要提交真实密钥。
 3. 给 Agent 一个研究目标，让它先做计划，再决定是否调用这些 Skill 和 MCP。
 4. 参考 `docs/3DGS_ADAS_HiL_Tier1-case-study.md` 理解整套工作流是如何长成一套交付物的。
+5. 如果你要做研发成果沉淀或专利预研，直接查看 `skills/patent-architect/`。
 
 ## 安全说明
 
 - 本仓库只保留 **脱敏模板**，不包含任何真实 API Key。
 - 如果你要继续扩展新的 MCP，请优先提交配置模板和说明文档，不要提交本地密钥文件。
 - 如果你要分享到团队外部，先确认 Skill 内容里没有公司特定路径、客户名称或内部文档链接。
+
+## 推荐分享方式
+
+- 面向工程师例会：先讲“为什么直接问模型不够”，再讲“Agent 如何自主编排 Skill 与 MCP”
+- 面向团队落地：直接从 `question-refiner + research-executor + citation-validator + 一个搜索型 MCP` 的最小闭环开始
+- 面向新同学：先看案例文档，再看具体 Skill
+- 面向创新管理或专利预研：补充 `patent-architect`，把“研究结论”继续延伸到“创新点沉淀”
