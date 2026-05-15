@@ -1,0 +1,28 @@
+# adding server side thirdparties
+if(WIN32)
+    list(APPEND CMAKE_PREFIX_PATH ${aisim_sdk_SOURCE_DIR}/aisim-${AISIM_VERSION}/sdk/thirdparties)
+    list(APPEND CMAKE_PREFIX_PATH ${aisim_sdk_SOURCE_DIR}/aisim-${AISIM_VERSION}/sdk/cmake_thirdparty)
+else()
+    list(APPEND CMAKE_PREFIX_PATH ${aisim_sdk_SOURCE_DIR}/opt/aiMotive/aisim-${AISIM_VERSION}/sdk/thirdparties)
+    list(APPEND CMAKE_PREFIX_PATH ${aisim_sdk_SOURCE_DIR}/opt/aiMotive/aisim-${AISIM_VERSION}/sdk/cmake_thirdparty)
+endif()
+
+find_package(aisim ${AISIM_VERSION} COMPONENTS client_sdk)
+find_package(tc_core ${AISIM_VERSION} COMPONENTS client_sdk)
+
+tc_core_enable_client_libs(
+    config
+    configurator_application
+    exporter_application
+    external_scenario_application
+    file_system
+    monitor_application
+    runner_application
+    sensor_exporter
+    step_barrier
+    viewport_camera_wrapper
+)
+
+add_subdirectory(apps)
+
+add_toolchain_client_data_dir(data)

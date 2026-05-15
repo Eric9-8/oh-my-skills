@@ -1,0 +1,28 @@
+{
+    "vehicles": {
+        "ego": {
+            "sensors": [
+                {
+                    "sensor_name": "camera_sensor",
+                    "subtypes": [
+                        {
+                            "subtype_name": "color",
+                            "extension": "tga"
+                        },
+                        {
+                            "subtype_name": "seg",
+                            "extension": "tga"
+                        },
+                        {
+                            "subtype_name": "depth",
+                            "extension": "dds"
+                        }
+                    ]
+                }
+            ],
+            "export_step": 1,
+            "start": 5,
+            "end": 20
+        }
+    }
+}

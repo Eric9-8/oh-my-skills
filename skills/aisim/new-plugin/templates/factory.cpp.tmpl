@@ -1,0 +1,18 @@
+/*
+ * {{PLUGIN_NAME_CLASS}} Sensor Factory
+ *
+ * Registers the {{PLUGIN_NAME_CLASS}} sensor plugin with aiSim.
+ */
+
+#include <{{NAMESPACE_PATH}}/{{PLUGIN_NAME}}/{{PLUGIN_NAME}}_sensor.h>
+
+#include <aimotive/simulator/sensors/common/i_sensor.h>
+#include <aimotive/simulator/sensors/common/sensor_factory.h>
+#include <aimotive/simulator/ego_vehicle/i_ego_vehicle.h>
+#include <aimotive/simulator/simulation/i_simulation.h>
+
+extern "C" {
+aim::sim::SensorFactory {{PLUGIN_TARGET_NAME}}_factory =
+    [](std::string name, aim::sim::simulation::ISimulation* simulation, aim::sim::ego_vehicle::IEgoVehicle* ego_vehicle)
+{ return std::make_unique<{{NAMESPACE}}::{{PLUGIN_NAME}}::{{PLUGIN_NAME_CLASS}}Sensor>(name, simulation, ego_vehicle); };
+}

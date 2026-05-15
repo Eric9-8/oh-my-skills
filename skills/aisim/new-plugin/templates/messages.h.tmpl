@@ -1,0 +1,114 @@
+#pragma once
+
+#include <aimotive/simulator/utils/schemas/schemas.h>
+#include <aimotive/simulator/network/interface/message_templates.h>
+#include <aimotive/simulator/sensors/common/interface/common_messages.h>
+#include <aimotive/simulator/resources/{{PLUGIN_TYPE}}/interface/{{PLUGIN_TYPE}}_messages.h>
+#include <aimotive/simulator/utils/nlohmann_serializers/interface/nlohmann_serializer_helpers.h>
+#include <aimotive/simulator/utils/nlohmann_serializers/interface/builtin_type_serializers.h>
+#include <aimotive/simulator/utils/enum_helper/interface/aim_sim_smart_enum.h>
+
+#include <cstdint>
+#include <string>
+#include <optional>
+#include <vector>
+
+namespace {{NAMESPACE}}::{{PLUGIN_NAME}}::interface {
+
+#define {{PLUGIN_NAME_UPPER}}_NAME {{TOOLCHAIN_NAME_MACRO}} "/{{PLUGIN_NAME}}@" {{TOOLCHAIN_VERSION_MACRO}}
+constexpr auto g_library_name = {{PLUGIN_NAME_UPPER}}_NAME;
+
+enum class MessageType : std::uint32_t
+{
+    INIT,
+    SUBSCRIBE,
+    GET_CONFIG,
+    SENSOR_DATA
+};
+
+AIM_SIM_SMART_ENUM(MessageType, MessageType::INIT, MessageType::SUBSCRIBE, MessageType::GET_CONFIG, MessageType::SENSOR_DATA)
+
+/**
+ * @brief Plugin-specific configuration
+ */
+struct {{PLUGIN_NAME_CLASS}}Config
+{
+    // TODO: Add plugin-specific configuration fields
+    int example_param = 0;
+};
+
+CREATE_SCHEMA(
+    {{PLUGIN_NAME_CLASS}}Config,
+    "/{{NAMESPACE_PATH}}/{{PLUGIN_NAME}}/interface/{{PLUGIN_NAME_CLASS}}Config",
+    "Plugin-specific configuration",
+    (example_param, "Example parameter"))
+
+AIM_SIM_GENERATE_SERIALIZER({{PLUGIN_NAME_CLASS}}Config, example_param)
+
+/**
+ * @brief Sensor configuration
+ */
+struct Config
+{
+    std::vector<aim::sim::time::Duration> update_intervals;
+    aim::sim::time::Duration offset{ 0 };
+    std::optional<aim::sim::resources::{{PLUGIN_TYPE}}::interface::Config> {{PLUGIN_TYPE}}_config;
+    {{PLUGIN_NAME_CLASS}}Config plugin_config;
+};
+
+CREATE_SCHEMA(
+    Config,
+    "/{{NAMESPACE_PATH}}/{{PLUGIN_NAME}}/interface/Config",
+    "Sensor configuration parameters",
+    (update_intervals, "[us] Capture intervals", aim::sim::schemas::required()),
+    (offset, "[us] Time offset"),
+    ({{PLUGIN_TYPE}}_config, "{{PLUGIN_TYPE_CLASS}} configuration"),
+    (plugin_config, "Plugin-specific configuration"))
+
+AIM_SIM_GENERATE_SERIALIZER(Config, update_intervals, offset, {{PLUGIN_TYPE}}_config, plugin_config)
+
+struct InitResponse
+{
+    DEFINE_RESPONSE(MessageType::INIT)
+    std::string m_error_message;
+};
+
+struct InitRequest
+{
+    DEFINE_REQUEST(InitResponse)
+    std::optional<Config> m_config;
+};
+
+AIM_SIM_GENERATE_SERIALIZER(InitRequest, m_config)
+AIM_SIM_GENERATE_SERIALIZER(InitResponse, m_error_message)
+
+struct SubscribeRequest
+{
+    DEFINE_SUBSCRIBE(MessageType::SUBSCRIBE)
+};
+
+AIM_SIM_GENERATE_SERIALIZER_ZERO(SubscribeRequest)
+
+struct GetConfigResponse
+{
+    DEFINE_RESPONSE(MessageType::GET_CONFIG)
+    Config m_config;
+};
+
+struct GetConfigRequest
+{
+    DEFINE_REQUEST(GetConfigResponse)
+};
+
+AIM_SIM_GENERATE_SERIALIZER_ZERO(GetConfigRequest)
+AIM_SIM_GENERATE_SERIALIZER(GetConfigResponse, m_config)
+
+struct SensorCaptureData
+{
+    DEFINE_SUBSCRIPTION(MessageType::SENSOR_DATA)
+    // TODO: Add output data fields if needed
+};
+
+AIM_SIM_GENERATE_SERIALIZER_ZERO(SensorCaptureData)
+
+} // namespace {{NAMESPACE}}::{{PLUGIN_NAME}}::interface

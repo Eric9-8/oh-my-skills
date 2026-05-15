@@ -1,0 +1,19 @@
+{
+    "version": 2,
+    "weather": {
+        "sun_position": {
+            "heading": 150.0,
+            "elevation": -8.0
+        },
+        "enabled_light_control_groups": [
+            {"group": "Window"},
+            {"group": "StreetLight"},
+            {"group": "CeilingLight"}
+        ],
+        "global_camera_exposure_parameters": {
+            "sensitivity": 2250,
+            "shutter_speed": 0.04,
+            "f_stop": 5.6
+        }
+    }
+}

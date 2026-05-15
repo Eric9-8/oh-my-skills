@@ -1,0 +1,8 @@
+add_toolchain_client(
+    {{APP_NAME}}
+    SOURCES
+        {{APP_NAME}}.cpp
+    LINK_LIBRARIES
+        tc_core::{{APP_TYPE}}_application
+        {{TOOLCHAIN_NAME}}::client_sdk
+)

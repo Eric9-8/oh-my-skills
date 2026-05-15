@@ -1,0 +1,954 @@
+{
+    "sensor_brackets": {},
+    "sensors": {
+        "side_view_camera_front_left": {
+            "camera_config": {
+                "color_filter": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "depth_type": "None",
+                "distortion_parameters": {
+                    "distortion_coefficients": [
+                        1.654360055923462,
+                        0.4323180019855499,
+                        3.061869938392192e-05,
+                        -2.1057900084997527e-05,
+                        0.007073869928717613
+                    ],
+                    "focal_length": [
+                        1119.9200439453125,
+                        1119.5400390625
+                    ],
+                    "principal_point": [
+                        957.905029296875,
+                        638.9669799804688
+                    ],
+                    "rational_model_coefficients": [
+                        2.0727999210357666,
+                        0.9974139928817749,
+                        0.07517089694738388
+                    ]
+                },
+                "height": 1280,
+                "image_type": "ColorRGBA",
+                "model": "OpenCVPinhole",
+                "position": [
+                    2.17356,
+                    0.93996,
+                    0.96945
+                ],
+                "render_properties": {
+                    "environment_mapping_type": "None",
+                    "far_plane": 1024,
+                    "hil_offset": 0,
+                    "max_bloom_depth": 4,
+                    "near_plane": 0.01,
+                    "post_process_render_parameters": {
+                        "bloom_intensity": 0.04,
+                        "color_temperature": 6600,
+                        "color_temperature_weight": 0,
+                        "contrast": 1,
+                        "contrast_center": 0.5,
+                        "saturation": 0.8999999761581421,
+                        "sharpen_limit": 0.23000000417232513,
+                        "sharpen_strength": 0.20000000298023224,
+                        "tonemapper": "FilmicACES",
+                        "use_bloom_firefly_filter": true,
+                        "white_multiplier": 1
+                    },
+                    "smaa_enabled": true,
+                    "ssao_samples": 64,
+                    "supersampling_enabled": false
+                },
+                "rotation": {
+                    "pitch": 0,
+                    "roll": 0,
+                    "yaw": 64.5
+                },
+                "segmentation_enabled": false,
+                "width": 1920
+            },
+            "type": "camera",
+            "update_intervals": [
+                40000
+            ]
+        },
+        "side_view_camera_front_right": {
+            "camera_config": {
+                "color_filter": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "depth_type": "None",
+                "distortion_parameters": {
+                    "distortion_coefficients": [
+                        1.7089200019836426,
+                        0.4723930060863495,
+                        5.564519960898906e-05,
+                        1.6651400073897094e-05,
+                        0.009614040143787861
+                    ],
+                    "focal_length": [
+                        1117.6300048828125,
+                        1117.219970703125
+                    ],
+                    "principal_point": [
+                        960.7310180664063,
+                        643.9169921875
+                    ],
+                    "rational_model_coefficients": [
+                        2.1274099349975586,
+                        1.0599700212478638,
+                        0.0880734995007515
+                    ]
+                },
+                "height": 1280,
+                "image_type": "ColorRGBA",
+                "model": "OpenCVPinhole",
+                "position": [
+                    2.17603,
+                    -0.93616,
+                    0.96076
+                ],
+                "render_properties": {
+                    "environment_mapping_type": "None",
+                    "far_plane": 1024,
+                    "hil_offset": 0,
+                    "max_bloom_depth": 4,
+                    "near_plane": 0.01,
+                    "post_process_render_parameters": {
+                        "bloom_intensity": 0.04,
+                        "color_temperature": 6600,
+                        "color_temperature_weight": 0,
+                        "contrast": 1,
+                        "contrast_center": 0.5,
+                        "saturation": 0.8999999761581421,
+                        "sharpen_limit": 0.23000000417232513,
+                        "sharpen_strength": 0.20000000298023224,
+                        "tonemapper": "FilmicACES",
+                        "use_bloom_firefly_filter": true,
+                        "white_multiplier": 1
+                    },
+                    "smaa_enabled": true,
+                    "ssao_samples": 64,
+                    "supersampling_enabled": false
+                },
+                "rotation": {
+                    "pitch": 0,
+                    "roll": 0,
+                    "yaw": -64.5
+                },
+                "segmentation_enabled": false,
+                "width": 1920
+            },
+            "type": "camera",
+            "update_intervals": [
+                40000
+            ]
+        },
+        "side_view_camera_front_tele": {
+            "camera_config": {
+                "color_filter": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "depth_type": "None",
+                "distortion_parameters": {
+                    "distortion_coefficients": [
+                        30.063018798828125,
+                        2538.230712890625,
+                        -0.0012262756936252117,
+                        -0.00021487804770004004,
+                        -1611.614013671875
+                    ],
+                    "focal_length": [
+                        7311.8720703125,
+                        7311.8720703125
+                    ],
+                    "principal_point": [
+                        1901.5037841796875,
+                        1059.58935546875
+                    ],
+                    "rational_model_coefficients": [
+                        30.3028621673584,
+                        2540.66845703125,
+                        -803.40625
+                    ]
+                },
+                "height": 2160,
+                "image_type": "ColorRGBA",
+                "model": "OpenCVPinhole",
+                "position": [
+                    1.96017,
+                    0.03184,
+                    1.29942
+                ],
+                "render_properties": {
+                    "environment_mapping_type": "None",
+                    "far_plane": 1024,
+                    "hil_offset": 0,
+                    "max_bloom_depth": 4,
+                    "near_plane": 0.01,
+                    "post_process_render_parameters": {
+                        "bloom_intensity": 0.04,
+                        "color_temperature": 6600,
+                        "color_temperature_weight": 0,
+                        "contrast": 1,
+                        "contrast_center": 0.5,
+                        "saturation": 0.8999999761581421,
+                        "sharpen_limit": 0.23000000417232513,
+                        "sharpen_strength": 0.20000000298023224,
+                        "tonemapper": "FilmicACES",
+                        "use_bloom_firefly_filter": true,
+                        "white_multiplier": 1
+                    },
+                    "smaa_enabled": true,
+                    "ssao_samples": 64,
+                    "supersampling_enabled": false
+                },
+                "rotation": {
+                    "pitch": 0,
+                    "roll": 0,
+                    "yaw": 0
+                },
+                "segmentation_enabled": false,
+                "width": 3840
+            },
+            "type": "camera",
+            "update_intervals": [
+                40000
+            ]
+        },
+        "side_view_camera_front_wide": {
+            "camera_config": {
+                "color_filter": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "depth_type": "None",
+                "distortion_parameters": {
+                    "distortion_coefficients": [
+                        0.26040393114089966,
+                        -0.19657069444656372,
+                        -3.563552309060469e-05,
+                        0.0001397478044964373,
+                        -0.013640916906297207
+                    ],
+                    "focal_length": [
+                        1906.387451171875,
+                        1906.387451171875
+                    ],
+                    "principal_point": [
+                        1927.0826416015625,
+                        1077.3282470703125
+                    ],
+                    "rational_model_coefficients": [
+                        0.6224898099899292,
+                        -0.1942858099937439,
+                        -0.0640997365117073
+                    ]
+                },
+                "height": 2160,
+                "image_type": "ColorRGBA",
+                "model": "OpenCVPinhole",
+                "position": [
+                    1.9689,
+                    -0.03633,
+                    1.31269
+                ],
+                "render_properties": {
+                    "environment_mapping_type": "None",
+                    "far_plane": 1024,
+                    "hil_offset": 0,
+                    "max_bloom_depth": 4,
+                    "near_plane": 0.01,
+                    "post_process_render_parameters": {
+                        "bloom_intensity": 0.04,
+                        "color_temperature": 6600,
+                        "color_temperature_weight": 0,
+                        "contrast": 1,
+                        "contrast_center": 0.5,
+                        "saturation": 0.8999999761581421,
+                        "sharpen_limit": 0.23000000417232513,
+                        "sharpen_strength": 0.20000000298023224,
+                        "tonemapper": "FilmicACES",
+                        "use_bloom_firefly_filter": true,
+                        "white_multiplier": 1
+                    },
+                    "smaa_enabled": true,
+                    "ssao_samples": 64,
+                    "supersampling_enabled": false
+                },
+                "rotation": {
+                    "pitch": 0,
+                    "roll": 0,
+                    "yaw": 0
+                },
+                "segmentation_enabled": false,
+                "width": 3840
+            },
+            "type": "camera",
+            "update_intervals": [
+                40000
+            ]
+        },
+        "side_view_camera_rear": {
+            "camera_config": {
+                "color_filter": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "depth_type": "None",
+                "distortion_parameters": {
+                    "distortion_coefficients": [
+                        -0.5043309926986694,
+                        0.2803319990634918,
+                        -0.00018746800196822733,
+                        -0.0001560709933983162,
+                        -0.10784800350666046
+                    ],
+                    "focal_length": [
+                        1958.7099609375,
+                        1957.7900390625
+                    ],
+                    "principal_point": [
+                        959.530029296875,
+                        644.2559814453125
+                    ],
+                    "rational_model_coefficients": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                "height": 1280,
+                "image_type": "ColorRGBA",
+                "model": "OpenCVPinhole",
+                "position": [
+                    -1.00786,
+                    0.01554,
+                    0.80011
+                ],
+                "render_properties": {
+                    "environment_mapping_type": "None",
+                    "far_plane": 1024,
+                    "hil_offset": 0,
+                    "max_bloom_depth": 4,
+                    "near_plane": 0.01,
+                    "post_process_render_parameters": {
+                        "bloom_intensity": 0.04,
+                        "color_temperature": 6600,
+                        "color_temperature_weight": 0,
+                        "contrast": 1,
+                        "contrast_center": 0.5,
+                        "saturation": 0.8999999761581421,
+                        "sharpen_limit": 0.23000000417232513,
+                        "sharpen_strength": 0.20000000298023224,
+                        "tonemapper": "FilmicACES",
+                        "use_bloom_firefly_filter": true,
+                        "white_multiplier": 1
+                    },
+                    "smaa_enabled": true,
+                    "ssao_samples": 64,
+                    "supersampling_enabled": false
+                },
+                "rotation": {
+                    "pitch": 0,
+                    "roll": 0,
+                    "yaw": 180
+                },
+                "segmentation_enabled": false,
+                "width": 1920
+            },
+            "type": "camera",
+            "update_intervals": [
+                40000
+            ]
+        },
+        "side_view_camera_rear_left": {
+            "camera_config": {
+                "color_filter": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "depth_type": "None",
+                "distortion_parameters": {
+                    "distortion_coefficients": [
+                        0.6768490076065063,
+                        -0.03239469975233078,
+                        -6.450480213970877e-06,
+                        -1.9994900867459364e-05,
+                        -0.008413460105657578
+                    ],
+                    "focal_length": [
+                        1115.1199951171875,
+                        1114.75
+                    ],
+                    "principal_point": [
+                        966.1649780273438,
+                        642.3709716796875
+                    ],
+                    "rational_model_coefficients": [
+                        1.0924400091171265,
+                        0.13210999965667725,
+                        -0.03382619842886925
+                    ]
+                },
+                "height": 1280,
+                "image_type": "ColorRGBA",
+                "model": "OpenCVPinhole",
+                "position": [
+                    2.53227,
+                    0.97531,
+                    0.77584
+                ],
+                "render_properties": {
+                    "environment_mapping_type": "None",
+                    "far_plane": 1024,
+                    "hil_offset": 0,
+                    "max_bloom_depth": 4,
+                    "near_plane": 0.01,
+                    "post_process_render_parameters": {
+                        "bloom_intensity": 0.04,
+                        "color_temperature": 6600,
+                        "color_temperature_weight": 0,
+                        "contrast": 1,
+                        "contrast_center": 0.5,
+                        "saturation": 0.8999999761581421,
+                        "sharpen_limit": 0.23000000417232513,
+                        "sharpen_strength": 0.20000000298023224,
+                        "tonemapper": "FilmicACES",
+                        "use_bloom_firefly_filter": true,
+                        "white_multiplier": 1
+                    },
+                    "smaa_enabled": true,
+                    "ssao_samples": 64,
+                    "supersampling_enabled": false
+                },
+                "rotation": {
+                    "pitch": 0,
+                    "roll": 0,
+                    "yaw": 130
+                },
+                "segmentation_enabled": false,
+                "width": 1920
+            },
+            "type": "camera",
+            "update_intervals": [
+                40000
+            ]
+        },
+        "side_view_camera_rear_right": {
+            "camera_config": {
+                "color_filter": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "depth_type": "None",
+                "distortion_parameters": {
+                    "distortion_coefficients": [
+                        0.67221599817276,
+                        -0.041329801082611084,
+                        4.49543003924191e-05,
+                        3.867419945891015e-05,
+                        -0.00904306024312973
+                    ],
+                    "focal_length": [
+                        1116.6199951171875,
+                        1116.239990234375
+                    ],
+                    "principal_point": [
+                        963.3040161132813,
+                        639.0020141601563
+                    ],
+                    "rational_model_coefficients": [
+                        1.0887399911880493,
+                        0.12101899832487106,
+                        -0.03707730025053024
+                    ]
+                },
+                "height": 1280,
+                "image_type": "ColorRGBA",
+                "model": "OpenCVPinhole",
+                "position": [
+                    2.51999,
+                    -0.96754,
+                    0.77461
+                ],
+                "render_properties": {
+                    "environment_mapping_type": "None",
+                    "far_plane": 1024,
+                    "hil_offset": 0,
+                    "max_bloom_depth": 4,
+                    "near_plane": 0.01,
+                    "post_process_render_parameters": {
+                        "bloom_intensity": 0.04,
+                        "color_temperature": 6600,
+                        "color_temperature_weight": 0,
+                        "contrast": 1,
+                        "contrast_center": 0.5,
+                        "saturation": 0.8999999761581421,
+                        "sharpen_limit": 0.23000000417232513,
+                        "sharpen_strength": 0.20000000298023224,
+                        "tonemapper": "FilmicACES",
+                        "use_bloom_firefly_filter": true,
+                        "white_multiplier": 1
+                    },
+                    "smaa_enabled": true,
+                    "ssao_samples": 64,
+                    "supersampling_enabled": false
+                },
+                "rotation": {
+                    "pitch": 0,
+                    "roll": 0,
+                    "yaw": -130
+                },
+                "segmentation_enabled": false,
+                "width": 1920
+            },
+            "type": "camera",
+            "update_intervals": [
+                40000
+            ]
+        },
+        "surround_view_camera_front": {
+            "camera_config": {
+                "color_filter": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "depth_type": "None",
+                "distortion_parameters": {
+                    "inv_polynomial_coefficients": [
+                        851.9685275978993,
+                        624.0455368226777,
+                        81.70065256080207,
+                        84.36474786634673,
+                        63.928615910633766,
+                        10.276109299175625,
+                        14.833860370436177,
+                        26.38649886682558,
+                        13.099783104051147,
+                        2.1127119183883316,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "polynomial_coefficients": [
+                        -469.24772177071065,
+                        0,
+                        0.00038831223356091917,
+                        2.428698357013862e-07,
+                        7.060078842858894e-11
+                    ],
+                    "principal_point": [
+                        959.2628958988405,
+                        767.7745177764886
+                    ]
+                },
+                "height": 1536,
+                "image_type": "ColorRGBA",
+                "model": "OcamFisheye",
+                "position": [
+                    3.8678,
+                    -0.00215,
+                    0.5844
+                ],
+                "render_properties": {
+                    "environment_mapping_type": "Cube_6_Face",
+                    "far_plane": 1024,
+                    "hil_offset": 0,
+                    "max_bloom_depth": 4,
+                    "near_plane": 0.01,
+                    "post_process_render_parameters": {
+                        "bloom_intensity": 0.04,
+                        "color_temperature": 6600,
+                        "color_temperature_weight": 0,
+                        "contrast": 1,
+                        "contrast_center": 0.5,
+                        "saturation": 0.8999999761581421,
+                        "sharpen_limit": 0.23000000417232513,
+                        "sharpen_strength": 0.20000000298023224,
+                        "tonemapper": "FilmicACES",
+                        "use_bloom_firefly_filter": true,
+                        "white_multiplier": 1
+                    },
+                    "smaa_enabled": true,
+                    "ssao_samples": 64,
+                    "supersampling_enabled": false
+                },
+                "rotation": {
+                    "pitch": 12.926,
+                    "roll": 0,
+                    "yaw": 0
+                },
+                "segmentation_enabled": false,
+                "width": 1920
+            },
+            "type": "camera",
+            "update_intervals": [
+                40000
+            ]
+        },
+        "surround_view_camera_left": {
+            "camera_config": {
+                "color_filter": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "depth_type": "None",
+                "distortion_parameters": {
+                    "inv_polynomial_coefficients": [
+                        851.2258646387496,
+                        617.9315141183095,
+                        58.60687541313801,
+                        62.409801905377876,
+                        63.650734713431085,
+                        7.822352224110023,
+                        2.5419248870583164,
+                        21.164807428591462,
+                        14.291416116178857,
+                        2.8252969584749272,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "polynomial_coefficients": [
+                        -471.26470298196784,
+                        0,
+                        0.00045443958566888395,
+                        8.747106182235456e-08,
+                        1.6767515049566166e-10
+                    ],
+                    "principal_point": [
+                        959.4917134184964,
+                        767.6388652183209
+                    ]
+                },
+                "height": 1536,
+                "image_type": "ColorRGBA",
+                "model": "OcamFisheye",
+                "position": [
+                    2.06795,
+                    1.09739,
+                    0.98416
+                ],
+                "render_properties": {
+                    "environment_mapping_type": "Cube_6_Face",
+                    "far_plane": 1024,
+                    "hil_offset": 0,
+                    "max_bloom_depth": 4,
+                    "near_plane": 0.01,
+                    "post_process_render_parameters": {
+                        "bloom_intensity": 0.04,
+                        "color_temperature": 6600,
+                        "color_temperature_weight": 0,
+                        "contrast": 1,
+                        "contrast_center": 0.5,
+                        "saturation": 0.8999999761581421,
+                        "sharpen_limit": 0.23000000417232513,
+                        "sharpen_strength": 0.20000000298023224,
+                        "tonemapper": "FilmicACES",
+                        "use_bloom_firefly_filter": true,
+                        "white_multiplier": 1
+                    },
+                    "smaa_enabled": true,
+                    "ssao_samples": 64,
+                    "supersampling_enabled": false
+                },
+                "rotation": {
+                    "pitch": 29,
+                    "roll": 0,
+                    "yaw": 90
+                },
+                "segmentation_enabled": false,
+                "width": 1920
+            },
+            "type": "camera",
+            "update_intervals": [
+                40000
+            ]
+        },
+        "surround_view_camera_rear": {
+            "camera_config": {
+                "color_filter": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "depth_type": "None",
+                "distortion_parameters": {
+                    "inv_polynomial_coefficients": [
+                        852.0018828792556,
+                        624.5276864685785,
+                        83.09843000155193,
+                        85.61367118085784,
+                        64.18102453645338,
+                        10.63954934603578,
+                        15.445693649748852,
+                        26.512846118827667,
+                        12.965974675972038,
+                        2.0645322121478333,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "polynomial_coefficients": [
+                        -469.122925416601,
+                        0,
+                        0.00038523155341502576,
+                        2.504983673730538e-07,
+                        6.556757842974358e-11
+                    ],
+                    "principal_point": [
+                        959.2728281018713,
+                        767.5917703128745
+                    ]
+                },
+                "height": 1536,
+                "image_type": "ColorRGBA",
+                "model": "OcamFisheye",
+                "position": [
+                    -1.01348,
+                    -0.01976,
+                    0.80739
+                ],
+                "render_properties": {
+                    "environment_mapping_type": "Cube_6_Face",
+                    "far_plane": 1024,
+                    "hil_offset": 0,
+                    "max_bloom_depth": 4,
+                    "near_plane": 0.01,
+                    "post_process_render_parameters": {
+                        "bloom_intensity": 0.04,
+                        "color_temperature": 6600,
+                        "color_temperature_weight": 0,
+                        "contrast": 1,
+                        "contrast_center": 0.5,
+                        "saturation": 0.8999999761581421,
+                        "sharpen_limit": 0.23000000417232513,
+                        "sharpen_strength": 0.20000000298023224,
+                        "tonemapper": "FilmicACES",
+                        "use_bloom_firefly_filter": true,
+                        "white_multiplier": 1
+                    },
+                    "smaa_enabled": true,
+                    "ssao_samples": 64,
+                    "supersampling_enabled": false
+                },
+                "rotation": {
+                    "pitch": 13.07,
+                    "roll": 0,
+                    "yaw": 180
+                },
+                "segmentation_enabled": false,
+                "width": 1920
+            },
+            "type": "camera",
+            "update_intervals": [
+                40000
+            ]
+        },
+        "surround_view_camera_right": {
+            "camera_config": {
+                "color_filter": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "depth_type": "None",
+                "distortion_parameters": {
+                    "inv_polynomial_coefficients": [
+                        851.2148693763457,
+                        617.6823417121284,
+                        57.9144604211548,
+                        61.75718112479673,
+                        63.699207416131415,
+                        7.870541094744011,
+                        2.1869552376352925,
+                        20.942138136940695,
+                        14.289725050245838,
+                        2.840671903060757,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "polynomial_coefficients": [
+                        -471.45802769851394,
+                        0,
+                        0.00045705882148576633,
+                        8.188220953560444e-08,
+                        1.7102330513282684e-10
+                    ],
+                    "principal_point": [
+                        959.3480854237584,
+                        767.6589039604378
+                    ]
+                },
+                "height": 1536,
+                "image_type": "ColorRGBA",
+                "model": "OcamFisheye",
+                "position": [
+                    2.04915,
+                    -1.08721,
+                    0.9779
+                ],
+                "render_properties": {
+                    "environment_mapping_type": "Cube_6_Face",
+                    "far_plane": 1024,
+                    "hil_offset": 0,
+                    "max_bloom_depth": 4,
+                    "near_plane": 0.01,
+                    "post_process_render_parameters": {
+                        "bloom_intensity": 0.04,
+                        "color_temperature": 6600,
+                        "color_temperature_weight": 0,
+                        "contrast": 1,
+                        "contrast_center": 0.5,
+                        "saturation": 0.8999999761581421,
+                        "sharpen_limit": 0.23000000417232513,
+                        "sharpen_strength": 0.20000000298023224,
+                        "tonemapper": "FilmicACES",
+                        "use_bloom_firefly_filter": true,
+                        "white_multiplier": 1
+                    },
+                    "smaa_enabled": true,
+                    "ssao_samples": 64,
+                    "supersampling_enabled": false
+                },
+                "rotation": {
+                    "pitch": 29,
+                    "roll": 0,
+                    "yaw": -90
+                },
+                "segmentation_enabled": false,
+                "width": 1920
+            },
+            "type": "camera",
+            "update_intervals": [
+                40000
+            ]
+        }
+    }
+}

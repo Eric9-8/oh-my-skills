@@ -1,0 +1,117 @@
+#include <{{NAMESPACE_PATH}}/{{PLUGIN_NAME}}/{{PLUGIN_NAME}}_sensor.h>
+
+#include <aimotive/simulator/resources/{{PLUGIN_TYPE}}/{{PLUGIN_TYPE}}.h>
+#include <aimotive/simulator/ego_vehicle/i_ego_vehicle.h>
+#include <aimotive/simulator/simulation/i_simulation.h>
+#include <aimotive/simengine/core/i_engine.h>
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
+#include <iomanip>
+
+namespace {{NAMESPACE}}::{{PLUGIN_NAME}} {
+
+using namespace aim::sim;
+
+{{PLUGIN_NAME_CLASS}}Sensor::{{PLUGIN_NAME_CLASS}}Sensor(
+    std::string name,
+    simulation::ISimulation* simulation,
+    ego_vehicle::IEgoVehicle* ego_vehicle)
+    : AsyncInitSensor(std::move(name), simulation, ego_vehicle)
+{
+}
+
+{{PLUGIN_NAME_CLASS}}Sensor::~{{PLUGIN_NAME_CLASS}}Sensor() = default;
+
+void {{PLUGIN_NAME_CLASS}}Sensor::CheckConfigAndCreateLocals(
+    const interface::InitRequest& req,
+    interface::InitResponse& resp)
+{
+    if (!req.m_config.has_value()) {
+        resp.m_error_message = "Config is required";
+        return;
+    }
+
+    if (!req.m_config->{{PLUGIN_TYPE}}_config.has_value()) {
+        resp.m_error_message = "{{PLUGIN_TYPE_CLASS}} config is required";
+        return;
+    }
+
+    // Create {{PLUGIN_TYPE}} resource
+    try {
+        m_{{PLUGIN_TYPE}} = std::make_unique<resources::{{PLUGIN_TYPE}}::{{PLUGIN_TYPE_CLASS}}>(
+            m_name,
+            m_ego_vehicle,
+            req.m_config->{{PLUGIN_TYPE}}_config.value()
+        );
+    } catch (const std::exception& e) {
+        resp.m_error_message = std::string("Failed to create {{PLUGIN_TYPE}}: ") + e.what();
+        return;
+    }
+
+    // TODO: Initialize plugin-specific resources here
+
+    m_last_fps_time = std::chrono::steady_clock::now();
+    std::cout << "[{{PLUGIN_NAME_CLASS}}] Sensor initialized: " << m_name << std::endl;
+}
+
+void {{PLUGIN_NAME_CLASS}}Sensor::Start()
+{
+    if (m_{{PLUGIN_TYPE}}) {
+        m_{{PLUGIN_TYPE}}->Start();
+    }
+    std::cout << "[{{PLUGIN_NAME_CLASS}}] Sensor started: " << m_name << std::endl;
+}
+
+void {{PLUGIN_NAME_CLASS}}Sensor::Capture(simulation::StepContext& ctx, SensorContext& s_ctx)
+{
+    if (!m_{{PLUGIN_TYPE}}) return;
+
+    // Get vehicle pose
+    auto global_ref = m_ego_vehicle->GetGlobalReferenceFrame();
+    auto pom = global_ref * m_local_pom;
+
+    // Trigger non-blocking capture
+    s_ctx.m_image_group = m_{{PLUGIN_TYPE}}->CaptureNonBlocking(
+        pom,
+        {},
+        ctx.m_step_ts
+    );
+}
+
+void {{PLUGIN_NAME_CLASS}}Sensor::ProcessDataAsync(simulation::StepContext& ctx, SensorContext& s_ctx)
+{
+    if (!m_{{PLUGIN_TYPE}}) {
+        s_ctx.m_frame_ready = false;
+        return;
+    }
+
+    // Read back data from GPU
+    auto data = m_{{PLUGIN_TYPE}}->ReadbackImageAsync(s_ctx.m_image_group, ctx.m_step_ts);
+
+    // TODO: Process the data here
+
+    s_ctx.m_frame_ready = true;
+}
+
+void {{PLUGIN_NAME_CLASS}}Sensor::SendMsg(SensorContext& s_ctx)
+{
+    if (!s_ctx.m_frame_ready) return;
+
+    // TODO: Send data to output (network, hardware, etc.)
+
+    // Update frame counter and FPS
+    m_frame_counter++;
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_fps_time).count();
+
+    if (elapsed >= 1000) {
+        m_current_fps = static_cast<float>(m_frame_counter) * 1000.0f / static_cast<float>(elapsed);
+        std::cout << "[{{PLUGIN_NAME_CLASS}}] " << m_name << " FPS: " 
+                  << std::fixed << std::setprecision(1) << m_current_fps << std::endl;
+        m_frame_counter = 0;
+        m_last_fps_time = now;
+    }
+}
+
+} // namespace {{NAMESPACE}}::{{PLUGIN_NAME}}

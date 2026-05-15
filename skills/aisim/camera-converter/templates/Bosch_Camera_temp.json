@@ -1,0 +1,85 @@
+{
+  "sensors": {
+    "side_view_camera_front_left": {
+      "type": "camera",
+      "update_intervals": [ 40000 ],
+      "camera_config": {
+        "position": [
+          2.17356,
+          0.93996,
+          0.96945
+        ],
+        "rotation": {
+          "yaw": 64.5,
+          "pitch": 0.0,
+          "roll": 0.0
+        },
+        "width": 1920,
+        "height": 1280,
+        "model": "OpenCVPinhole",
+        "distortion_parameters": {
+          "principal_point": [
+            9.5790502929687500e+02,
+            6.3896697998046875e+02
+          ],
+          "focal_length": [
+            1.1199200439453125e+03,
+            1.1195400390625000e+03
+          ],
+          "distortion_coefficients": [
+            1.6543600559234619e+00,
+            4.3231800198554993e-01,
+            3.0618699383921921e-05,
+            -2.1057900084997527e-05,
+            7.0738699287176132e-03
+          ],
+          "rational_model_coefficients": [
+            2.0727999210357666e+00,
+            9.9741399288177490e-01,
+            7.5170896947383881e-02
+          ]
+        },
+        "image_type": "ColorRGBA",
+        "segmentation_enabled": false,
+        "depth_type": "None",
+        "color_filter": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "render_properties": {
+          "environment_mapping_type": "None",
+          "near_plane": 0.01,
+          "far_plane": 1024.0,
+          "smaa_enabled": true,
+          "supersampling_enabled": false,
+          "max_bloom_depth": 4,
+          "post_process_render_parameters": {
+            "bloom_intensity": 0.04,
+            "use_bloom_firefly_filter": true,
+            "color_temperature": 6600.0,
+            "color_temperature_weight": 0.0,
+            "contrast": 1.0,
+            "contrast_center": 0.5,
+            "saturation": 0.8999999761581421,
+            "sharpen_limit": 0.23000000417232513,
+            "sharpen_strength": 0.20000000298023224,
+            "tonemapper": "FilmicACES",
+            "white_multiplier": 1.0
+          },
+          "hil_offset": 0,
+          "ssao_samples": 64
+        }
+      }
+    }
+  }
+}

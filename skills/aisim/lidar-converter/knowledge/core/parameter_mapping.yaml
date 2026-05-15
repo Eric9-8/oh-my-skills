@@ -1,0 +1,180 @@
+# aiSim LiDAR 核心参数映射表
+
+## 参数映射速查表
+
+### Rotating LiDAR 必需参数
+rotating_required:
+  - rpm: 转速 (RPM)
+  - laser_count: 激光通道数
+  - vertical_fov_min_deg: 最小垂直视场角
+  - vertical_fov_max_deg: 最大垂直视场角
+  - horizontal_resolution_deg: 水平角分辨率
+  - distance_min_meter: 最小探测距离
+  - distance_max_meter: 最大探测距离
+
+rotating_optional:
+  - distance_accuracy_meter: 距离精度 (默认 0.0)
+  - rpm_variancy_deg: RPM 变化量 (默认 0.1)
+  - vertical_scanning_pattern_file: 垂直扫描模式文件路径
+
+### Flash LiDAR 必需参数
+flash_required:
+  - frame_rate: 帧率 (Hz)
+  - horizontal_fov_deg: 水平视场角
+  - vertical_fov_deg: 垂直视场角
+  - horizontal_resolution_deg: 水平角分辨率
+  - vertical_resolution_deg: 垂直角分辨率
+  - distance_min_meter: 最小探测距离
+  - distance_max_meter: 最大探测距离
+
+flash_optional:
+  - distance_accuracy_meter: 距离精度 (默认 0.0)
+  - scanning_pattern_file: 扫描模式文件路径
+
+### 通用参数
+common:
+  - type: 本项目约定统一为 "lidar"（rotating/flash 由 rpm vs frame_rate 区分）
+  - update_intervals: 更新间隔 (微秒)
+    - rotating: 60000000 / rpm
+    - flash: 1000000 / frame_rate
+  - mounting:
+      position: [x, y, z]  # 默认 [1.0, 0.0, 3.0]
+      rotation:
+        pitch: 0.0
+        roll: 0.0
+        yaw: 0.0
+
+## 扫描模式结构
+
+### VerticalScanningPattern (Rotating)
+```yaml
+structure:
+  VerticalScanningPattern:
+    - AzimuthOffsetDeg: float  # 方位角偏移
+      ElevationDeg: float       # 俯仰角
+      Id: int                   # 通道 ID
+      MaxDistanceDegradation: float (optional, 0.0-1.0)
+```
+
+### ScanningPattern (Flash)
+```yaml
+structure:
+  ScanningPattern:
+    - Lasers:
+        - TimeOffsetS: float     # 时间偏移 (秒)
+          AzimuthDeg: float      # 方位角
+          ElevationDeg: float    # 俯仰角
+          LaserId: int           # 激光 ID
+          MaxDistanceDegradation: float (optional, 0.0-1.0)
+```
+
+## 配置文件路径规范
+
+```yaml
+path_format:
+  pattern_file: "calibrations://scanning_pattern/[LidarName]_pattern.json"
+  config_file: "<aiSim>/config/sensors/[lidarname].json"
+```
+
+## 参数提取关键词（多语言）
+
+```yaml
+keywords:
+  rpm:
+    en: ["RPM", "rotations per minute", "rotation speed"]
+    cn: ["转速", "旋转速度"]
+
+  frame_rate:
+    en: ["frame rate", "fps", "Hz", "frequency"]
+    cn: ["帧率", "频率"]
+
+  channels:
+    en: ["channels", "lasers", "beams", "laser count"]
+    cn: ["通道", "线数", "激光束"]
+
+  vertical_fov:
+    en: ["vertical FOV", "V-FOV", "elevation range", "vertical field of view"]
+    cn: ["垂直视场角", "垂直角度", "俯仰角范围"]
+
+  horizontal_fov:
+    en: ["horizontal FOV", "H-FOV", "azimuth range", "horizontal field of view"]
+    cn: ["水平视场角", "水平角度", "方位角范围"]
+
+  range:
+    en: ["range", "distance", "detection range", "measurement range"]
+    cn: ["测距", "探测距离", "量程", "测量范围"]
+
+  resolution:
+    en: ["resolution", "angular resolution", "step", "accuracy"]
+    cn: ["分辨率", "角分辨率", "步进", "精度"]
+```
+
+## 单位转换规则
+
+```yaml
+conversions:
+  distance:
+    cm_to_m: divide_by: 100
+    mm_to_m: divide_by: 1000
+
+  angle:
+    keep_degrees: true
+    rad_to_deg: multiply_by: 57.2958
+
+  time:
+    ms_to_us: multiply_by: 1000
+```
+
+## 默认值策略
+
+```yaml
+defaults:
+  frame_rate: 25               # 输出为整数 Hz（本项目约定）
+  distance_min_meter: 0.3     # 适用于大多数车载 LiDAR
+  distance_max_meter: 200.0   # 典型值
+  distance_accuracy_meter: 0.0
+  horizontal_resolution_deg: 0.2
+  rpm_variancy_deg: 0.1
+
+  mounting:
+    position: [1.0, 0.0, 3.0]  # 车顶中心
+    rotation:
+      pitch: 0.0
+      roll: 0.0
+      yaw: 0.0
+
+  visualization:
+    enabled: false
+    color: [255, 0, 0]
+    point_size: 40.0
+```
+
+## 验证规则
+
+```yaml
+validation:
+  rpm:
+    min: 300
+    max: 2400
+    typical: [600, 1200]
+
+  frame_rate:
+    min: 10
+    max: 60
+    typical: [20, 25]
+
+  laser_count:
+    allowed: [16, 32, 64, 128]
+
+  vertical_fov:
+    min: -90
+    max: 90
+
+  horizontal_fov:
+    min: 0
+    max: 360
+
+  distance_max:
+    min: 1
+    max: 300
+```

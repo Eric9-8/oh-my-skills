@@ -1,6 +1,6 @@
 # oh-my-skills
 
-一个面向研究型 Agent 工作流的轻量分享仓库，打包了我在 `3DGS_ADAS_HiL_Tier1` 项目里实际使用的一组 Skills 与 MCP 用法，重点不是“工具清单”，而是“让 Agent 在 Plan 模式下自主编排能力”。
+一个面向研究型 Agent 工作流 + aiSim 仿真工具链的轻量分享仓库，打包了我在 `3DGS_ADAS_HiL_Tier1` 项目里实际使用的一组 Skills 与 MCP 用法，重点不是”工具清单”，而是”让 Agent 在 Plan 模式下自主编排能力”。
 
 ## 仓库目标
 
@@ -16,6 +16,14 @@ oh-my-skills/
 ├── README.md
 ├── .gitignore
 ├── skills/
+│   ├── aisim/
+│   │   ├── README.md
+│   │   ├── aisim-executor/SKILL.md
+│   │   ├── lidar-converter/SKILL.md
+│   │   ├── camera-converter/SKILL.md
+│   │   ├── init-toolchain/SKILL.md
+│   │   ├── new-plugin/SKILL.md
+│   │   └── new-client/SKILL.md
 │   ├── question-refiner/SKILL.md
 │   ├── got-controller/SKILL.md
 │   ├── research-executor/SKILL.md
@@ -47,6 +55,19 @@ oh-my-skills/
 
 ## Included Skills
 
+### aiSim 工具链
+
+| Skill | 作用 | 典型触发时机 |
+|---|---|---|
+| `lidar-converter` | LiDAR 手册 → aiSim 仿真配置（扫描模式 + 传感器配置） | 拿到新 LiDAR 手册需要生成配置 |
+| `camera-converter` | 相机标定参数 → aiSim Camera 配置 JSON | 更新/生成相机内参外参配置 |
+| `aisim-executor` | 执行 aiSim 仿真、导出传感器数据、触发验证 | 配置生成后需要端到端验证 |
+| `init-toolchain` | 初始化 aiSim 工具链项目骨架 | 从零创建新工具链项目 |
+| `new-plugin` | 创建传感器/执行器插件脚手架 | 添加 camera/lidar/radar 等插件 |
+| `new-client` | 创建客户端应用脚手架 | 添加 runner/configurator 等应用 |
+
+### 研究工作流
+
 | Skill | 作用 | 典型触发时机 |
 |---|---|---|
 | `question-refiner` | 把模糊问题变成结构化研究任务 | 用户只有方向，没有明确边界 |
@@ -64,11 +85,21 @@ oh-my-skills/
 
 ## 快速使用
 
+### 研究工作流
+
 1. 把 `skills/` 下需要的目录拷贝到你的 Skill 目录。
 2. 参照 `mcp/grok-search/.env.example` 配置 MCP，不要提交真实密钥。
 3. 给 Agent 一个研究目标，让它先做计划，再决定是否调用这些 Skill 和 MCP。
 4. 参考 `docs/3DGS_ADAS_HiL_Tier1-case-study.md` 理解整套工作流是如何长成一套交付物的。
 5. 如果你要做研发成果沉淀或专利预研，直接查看 `skills/patent-architect/`。
+
+### aiSim 工具链
+
+1. 安装 aiSim Skills：`cp -R skills/aisim/* ~/.claude/skills/`
+2. 按照 `lidar-converter → aisim-executor` 链路完成 LiDAR 配置与端到端验证
+3. 或按照 `camera-converter → aisim-executor` 链路完成 Camera 配置与三层验证
+4. 新项目使用 `init-toolchain → new-plugin → new-client` 快速搭建工具链骨架
+5. 详见 `skills/aisim/README.md`
 
 ## 安全说明
 
