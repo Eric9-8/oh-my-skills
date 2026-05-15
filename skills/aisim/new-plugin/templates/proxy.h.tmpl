@@ -1,0 +1,46 @@
+#pragma once
+
+#include <string>
+#include <functional>
+
+#include <aimotive/simulator/ego_vehicle/interface/ego_vehicle_proxy.h>
+#include <aimotive/simulator/network/interface/socket_manager.h>
+#include <aimotive/simulator/network/interface/binary_serializer_client.h>
+#include <aimotive/simulator/sensors/common/interface/sensor_proxy_base.h>
+
+#include <{{NAMESPACE_PATH}}/{{PLUGIN_NAME}}/interface/{{PLUGIN_NAME}}_messages.h>
+
+namespace {{NAMESPACE}}::{{PLUGIN_NAME}}::interface {
+
+class {{PLUGIN_NAME_CLASS}}SensorProxy : public aim::sim::sensors::common::interface::SensorProxyBase
+{
+public:
+    static constexpr const char* LIBRARY = g_library_name;
+
+    {{PLUGIN_NAME_CLASS}}SensorProxy(
+        aim::sim::ego_vehicle::interface::EgoVehicleProxy& ego_vehicle,
+        std::string name,
+        std::function<void(SensorCaptureData)> callback,
+        std::optional<Config> config = {},
+        std::string library_name = LIBRARY)
+        : SensorProxyBase{ config.has_value(), ego_vehicle, std::move(name), library_name }
+    {
+        auto resp = m_serializer.Request(InitRequest{ std::move(config) });
+        if (!resp.m_error_message.empty())
+        {
+            throw aim::sim::AimSimException(resp.m_error_message);
+        }
+        if (callback)
+        {
+            m_serializer.SubscribeToNotification(std::move(callback));
+            m_serializer.Subscribe(SubscribeRequest{});
+        }
+    }
+
+    Config GetConfig()
+    {
+        return m_serializer.Request(GetConfigRequest{}).m_config;
+    }
+};
+
+} // namespace {{NAMESPACE}}::{{PLUGIN_NAME}}::interface

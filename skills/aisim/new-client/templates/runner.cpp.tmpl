@@ -1,0 +1,42 @@
+#include <runner_application.h>
+#include <iostream>
+
+// TODO: Include sensor proxy headers
+// #include <namespace/sensor/interface/sensor_proxy.h>
+
+class {{APP_NAME_CLASS}}Application : public aim::sim::runner_application::RunnerApplication
+{
+public:
+    using RunnerApplication::RunnerApplication;
+
+private:
+    void PreStart() override
+    {
+        std::cout << "[{{APP_NAME_CLASS}}] PreStart - Initializing..." << std::endl;
+        // TODO: Initialize sensor proxies and connections
+    }
+
+    void PostStart() override
+    {
+        std::cout << "[{{APP_NAME_CLASS}}] PostStart - Simulation started" << std::endl;
+        // TODO: Post-initialization tasks
+    }
+
+    void PreStep() override
+    {
+        // TODO: Pre-step processing (send commands, update inputs)
+    }
+
+    void PostStep() override
+    {
+        // TODO: Post-step processing (handle sensor data, logging)
+    }
+};
+
+int main(int argc, char** argv)
+{
+    std::cout << "{{TOOLCHAIN_NAME}} Runner - Version " << {{TOOLCHAIN_VERSION_MACRO}} << std::endl;
+    
+    {{APP_NAME_CLASS}}Application runner{ argc, argv };
+    return runner.Run();
+}

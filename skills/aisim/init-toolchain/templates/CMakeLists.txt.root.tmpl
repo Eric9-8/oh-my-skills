@@ -1,0 +1,142 @@
+cmake_minimum_required(VERSION 3.26)
+
+if (NOT INTERNAL_BUILD)
+  include(FetchContent)
+
+  set(AISIM_VERSION "{{SDK_VERSION}}" CACHE STRING "Version of the aiSim SDK.")
+
+  # Auto-detect architecture
+  # aiSim version compatibility:
+  #   - 5.9 and earlier: Ubuntu2004, Ubuntu2204, Windows
+  #   - 5.10+: Ubuntu2204, Ubuntu2404, Windows (Ubuntu2004 dropped)
+  if(WIN32)
+      set(AISIM_ARCH_DEFAULT "Windows")
+  elseif(UNIX)
+      if(EXISTS "/etc/os-release")
+          file(READ "/etc/os-release" OS_RELEASE)
+          string(REGEX MATCH "VERSION_ID=\"([0-9]+)\\.([0-9]+)\"" _ ${OS_RELEASE})
+          set(UBUNTU_VERSION "${CMAKE_MATCH_1}${CMAKE_MATCH_2}")
+          set(AISIM_ARCH_DEFAULT "Ubuntu${UBUNTU_VERSION}")
+      else()
+          set(AISIM_ARCH_DEFAULT "Ubuntu2204")
+      endif()
+  else()
+      set(AISIM_ARCH_DEFAULT "Ubuntu2204")
+  endif()
+  set(AISIM_ARCH "${AISIM_ARCH_DEFAULT}" CACHE STRING "Architecture of the aiSim SDK.")
+
+  set(SDK_URI "" CACHE STRING "Location of the aiSim SDK package.")
+  if(SDK_URI STREQUAL "")
+      message(FATAL_ERROR "Please, set up the aiSim SDK location. This is an URI, a compressed file that started by http:// or file://. e.g.: cmake -DSDK_URI=file://xyz-sdk.tar.xz...")
+  endif()
+
+  FetchContent_Declare(
+      aisim_sdk
+      URL ${SDK_URI}
+  )
+
+  FetchContent_Populate(aisim_sdk)
+
+  # To force linking to Release
+  set(CMAKE_MAP_IMPORTED_CONFIG_RELWITHDEBINFO "RelWithDebInfo;Release")
+  set(CMAKE_MAP_IMPORTED_CONFIG_DEBUG "Debug;RelWithDebInfo;Release")
+  if(WIN32)
+      set(AIMOTIVE_ROOT_PATH ${aisim_sdk_SOURCE_DIR})
+      file(GLOB target_dirs ${AIMOTIVE_ROOT_PATH}/ai?im-*)
+      file(GLOB toolchain_target_dirs ${AIMOTIVE_ROOT_PATH}/toolchains/tc_core-*)
+      string(REGEX REPLACE ".*aisim-" "" AISIM_VERSION ${target_dirs})
+
+      list(APPEND CMAKE_PREFIX_PATH ${target_dirs})
+      list(APPEND CMAKE_PREFIX_PATH ${target_dirs}/sdk/cmake_thirdparty)
+      list(APPEND CMAKE_PREFIX_PATH ${target_dirs}/sdk/thirdparties)
+      list(APPEND CMAKE_PREFIX_PATH ${toolchain_target_dirs})
+      set(CMAKE_TOOLCHAIN_FILE ${target_dirs}/lib/cmake/aisim/toolchain.cmake)
+  else()
+      set(AIMOTIVE_ROOT_PATH ${aisim_sdk_SOURCE_DIR}/opt/aiMotive)
+      file(GLOB target_dirs ${AIMOTIVE_ROOT_PATH}/ai?im-*)
+      file(GLOB toolchain_target_dirs ${AIMOTIVE_ROOT_PATH}/toolchains/tc_core-*)
+      string(REGEX REPLACE ".*aisim-" "" AISIM_VERSION ${target_dirs})
+
+      list(APPEND CMAKE_PREFIX_PATH ${target_dirs})
+      list(APPEND CMAKE_PREFIX_PATH ${target_dirs}/sdk/cmake_thirdparty)
+      list(APPEND CMAKE_PREFIX_PATH ${target_dirs}/sdk/thirdparties)
+      list(APPEND CMAKE_PREFIX_PATH ${toolchain_target_dirs})
+      set(CMAKE_TOOLCHAIN_FILE ${target_dirs}/lib/cmake/aisim/toolchain.cmake)
+  endif()
+
+  if(WIN32)
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /bigobj /MP")
+  endif()
+endif()
+
+project({{TOOLCHAIN_NAME}} VERSION {{PROJECT_VERSION}})
+
+set(BUILD_TESTING 1)
+
+add_compile_definitions({{TOOLCHAIN_NAME_UPPER}}_NAME="${PROJECT_NAME}")
+add_compile_definitions({{TOOLCHAIN_NAME_UPPER}}_VERSION="${PROJECT_VERSION}")
+
+if(BUILD_TESTING)
+    enable_testing()
+endif()
+
+# keep this ordering
+add_subdirectory(thirdparties)
+add_subdirectory(plugins)
+add_subdirectory(clients)
+
+set(CPACK_PACKAGE_VERSION "${{{TOOLCHAIN_NAME}}_VERSION}")
+set(CPACK_PACKAGE_VENDOR aiMotive)
+
+set(CPACK_PACKAGE_HOMEPAGE_URL "https://aimotive.com/aisim")
+
+if (LINUX)
+    set(CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS
+        OWNER_READ OWNER_WRITE OWNER_EXECUTE
+        GROUP_READ GROUP_EXECUTE
+        WORLD_READ WORLD_EXECUTE
+        )
+    set(CPACK_PACKAGING_INSTALL_PREFIX "/")
+    set(CPACK_GENERATOR DEB)
+    set(CPACK_DEBIAN_COMPRESSION_TYPE xz)
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "{{MAINTAINER}}")
+else()
+    set(CPACK_NSIS_DISPLAY_NAME "{{TOOLCHAIN_NAME}} toolchain for AiSim")
+    set(CPACK_GENERATOR ZIP)
+endif()
+
+block(SCOPE_FOR VARIABLES)
+    set(CPACK_OUTPUT_CONFIG_FILE CPackConfig_clients.cmake)
+
+    set(CPACK_PACKAGE_NAME {{TOOLCHAIN_NAME}}_clients)
+    set(CPACK_PACKAGE_FILE_NAME {{TOOLCHAIN_NAME}}_clients-${PROJECT_VERSION}-${CMAKE_SYSTEM_NAME})
+    set(CPACK_PACKAGE_DESCRIPTION "Client binaries")
+    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "{{TOOLCHAIN_NAME}} toolchain client binaries")
+    set(CPACK_STRIP_FILES ON)
+
+    set(CPACK_INSTALL_CMAKE_PROJECTS
+        "${CMAKE_BINARY_DIR};{{TOOLCHAIN_NAME}};{{TOOLCHAIN_NAME}}_client;/"
+    )
+
+    include(CPack)
+endblock()
+
+block(SCOPE_FOR VARIABLES)
+    set(CPACK_OUTPUT_CONFIG_FILE CPackConfig_plugins.cmake)
+    set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_SOURCE_DIR}/cmake/postinst;${CMAKE_SOURCE_DIR}/cmake/postrm")
+
+    set(CPACK_PACKAGE_NAME {{TOOLCHAIN_NAME}}_plugins)
+    set(CPACK_PACKAGE_FILE_NAME {{TOOLCHAIN_NAME}}_plugins-${PROJECT_VERSION}-${CMAKE_SYSTEM_NAME})
+    set(CPACK_PACKAGE_DESCRIPTION "Server side plugins")
+    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "{{TOOLCHAIN_NAME}} toolchain server plugins")
+    set(CPACK_STRIP_FILES ON)
+
+    set(CPACK_INSTALL_CMAKE_PROJECTS
+        "${CMAKE_BINARY_DIR};{{TOOLCHAIN_NAME}};{{TOOLCHAIN_NAME}}_plugin;/"
+    )
+
+    set(CPACK_SOURCE_PACKAGE_FILE_NAME {{TOOLCHAIN_NAME}}_src-${PROJECT_VERSION})
+    set(CPACK_SOURCE_GENERATOR ZIP)
+    set(CPACK_SOURCE_INSTALLED_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR};/")
+    include(CPack)
+endblock()

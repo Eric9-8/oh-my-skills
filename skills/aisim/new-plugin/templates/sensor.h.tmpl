@@ -1,0 +1,54 @@
+#pragma once
+
+#include <{{NAMESPACE_PATH}}/{{PLUGIN_NAME}}/interface/{{PLUGIN_NAME}}_messages.h>
+#include <aimotive/simulator/sensors/common/sensor_component_base.h>
+#include <aimotive/simengine/render/image_data.h>
+
+#include <chrono>
+#include <fstream>
+#include <memory>
+
+namespace aim::sim::resources::{{PLUGIN_TYPE}} {
+class {{PLUGIN_TYPE_CLASS}};
+}
+
+namespace {{NAMESPACE}}::{{PLUGIN_NAME}} {
+
+struct {{PLUGIN_NAME_CLASS}}Context : public aim::sim::sensors::common::TemplateSensorContext<interface::SensorCaptureData>
+{
+    using aim::sim::sensors::common::TemplateSensorContext<interface::SensorCaptureData>::TemplateSensorContext;
+    aim::sim::ImageGroup<aim::sim::ImageGroupData> m_image_group;
+    bool m_frame_ready = false;
+};
+
+class {{PLUGIN_NAME_CLASS}}Sensor : public aim::sim::sensors::common::AsyncInitSensor<
+    interface::InitRequest,
+    interface::GetConfigRequest,
+    interface::SensorCaptureData,
+    {{PLUGIN_NAME_CLASS}}Context>
+{
+public:
+    {{PLUGIN_NAME_CLASS}}Sensor(std::string name, aim::sim::simulation::ISimulation* simulation, aim::sim::ego_vehicle::IEgoVehicle* ego_vehicle);
+    ~{{PLUGIN_NAME_CLASS}}Sensor();
+
+protected:
+    void CheckConfigAndCreateLocals(const interface::InitRequest&, interface::InitResponse& resp) override;
+    void Start() override;
+    void Capture(aim::sim::simulation::StepContext& ctx, SensorContext& s_ctx) override;
+    void ProcessDataAsync(aim::sim::simulation::StepContext& ctx, SensorContext& s_ctx) override;
+    void SendMsg(SensorContext& context) override;
+
+protected:
+    glm::vec3 m_position{0.0f};
+    glm::vec3 m_rotation{0.0f};
+    glm::mat4x4 m_local_pom{1.0f};
+
+    std::unique_ptr<aim::sim::resources::{{PLUGIN_TYPE}}::{{PLUGIN_TYPE_CLASS}}> m_{{PLUGIN_TYPE}};
+
+    // Performance monitoring
+    std::chrono::steady_clock::time_point m_last_fps_time;
+    uint64_t m_frame_counter = 0;
+    float m_current_fps = 0.0f;
+};
+
+} // namespace {{NAMESPACE}}::{{PLUGIN_NAME}}

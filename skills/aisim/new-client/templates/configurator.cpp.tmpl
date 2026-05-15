@@ -1,0 +1,19 @@
+#include <configurator_application.h>
+#include <iostream>
+
+// TODO: Include sensor proxy headers
+// #include <namespace/sensor/interface/sensor_proxy.h>
+
+int main(int argc, char** argv)
+{
+    std::cout << "{{TOOLCHAIN_NAME}} Configurator - Version " << {{TOOLCHAIN_VERSION_MACRO}} << std::endl;
+    
+    aim::sim::configurator_application::ConfiguratorApplication app(argc, argv);
+
+    // TODO: Register sensor configurators
+    // app.SetConfiguratorCreatorForAimLikeSensorWithSchema<
+    //     namespace::sensor::interface::SensorProxy
+    // >("sensor_type_name");
+
+    return app.Run();
+}

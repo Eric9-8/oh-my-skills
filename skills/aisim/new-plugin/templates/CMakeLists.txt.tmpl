@@ -1,0 +1,21 @@
+add_toolchain_plugin(
+    {{PLUGIN_TARGET_NAME}}
+    INTERFACE_HEADERS
+        interface/{{NAMESPACE_PATH}}/{{PLUGIN_NAME}}/interface/{{PLUGIN_NAME}}_messages.h
+        interface/{{NAMESPACE_PATH}}/{{PLUGIN_NAME}}/interface/{{PLUGIN_NAME}}_proxy.h
+    INTERFACE_LINK_LIBRARIES
+        {{INTERFACE_LINK_LIBRARIES}}
+    LIB_HEADERS
+        include/{{NAMESPACE_PATH}}/{{PLUGIN_NAME}}/{{PLUGIN_NAME}}_sensor.h
+    SOURCES
+        src/{{PLUGIN_NAME}}_sensor.cpp
+        src/{{PLUGIN_NAME}}_factory.cpp
+    LINK_LIBRARIES
+        PUBLIC
+            {{LINK_LIBRARIES}}
+)
+
+# TODO: Add additional dependencies if needed
+# target_link_libraries({{PLUGIN_TARGET_NAME}} PRIVATE
+#     additional_lib
+# )
