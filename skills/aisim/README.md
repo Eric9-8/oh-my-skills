@@ -12,6 +12,7 @@
 | `init-toolchain` | 初始化 aiSim 工具链项目骨架 | 从零开始创建新的工具链项目 |
 | `new-plugin` | 创建传感器/执行器插件脚手架 | 需要添加新的 camera/lidar/radar 插件 |
 | `new-client` | 创建客户端应用脚手架 | 需要添加新的 runner/configurator/monitor 等应用 |
+| `aisim-map-importer` | 将中文供应商 GPKG / PLY 点云导入 aiSim（含 OSM 路网构建、atlas 修复、gs3d.json 生成） | 拿到新采集场景需要导入 aiSim 地图 |
 
 ## 推荐工作流
 
@@ -49,6 +50,25 @@ init-toolchain  →  new-plugin  →  new-client  →  业务逻辑开发
      ↓                  ↓              ↓
    项目骨架        传感器插件      客户端应用
 ```
+
+### 地图导入（GPKG + 3DGS 点云）
+
+```
+aisim-map-importer
+┌─────────────────────────────────────────────────────┐
+│ 中文 GPKG ──► 标准 GPKG (convert_chinese_gpkg.py)    │
+│ 无 GPKG    ──► OSM GeoJSON ──► GPKG (convert_geojson_gpkg.py) │
+│ HPGS PLY  ──► 注入 Offset comment (patch_ply_sh.py) │
+│           ──► gs3d.json (generate_gs3d_json.py)     │
+│           ──► atlas_cmd_tool  ──► aiSim 资产目录     │
+└─────────────────────────────────────────────────────┘
+```
+
+1. **convert_chinese_gpkg.py** 将中文图层名转为 aiSim 英文标准层（Paths / RoadShapes / RoadMarks / Crosswalks / MapInfo）
+2. **convert_geojson_gpkg.py** 从 Overpass Turbo GeoJSON 构建最小可用 GPKG（无中文 GPKG 时的回退路径）
+3. **patch_ply_sh.py** 为缺少 `f_rest_*` 系数的 PLY 补零填充 SH degree-3
+4. **generate_gs3d_json.py** 计算 RT 矩阵（HPGS Offset + 地面 z）生成 `gs3d.json`
+5. `atlas_cmd_tool` 完成最终导入并输出 aiSim 资产
 
 ## 已验证案例
 

@@ -19,6 +19,13 @@ oh-my-skills/
 │   ├── aisim/
 │   │   ├── README.md
 │   │   ├── aisim-executor/SKILL.md
+│   │   ├── aisim-map-importer/
+│   │   │   ├── SKILL.md
+│   │   │   └── scripts/
+│   │   │       ├── convert_chinese_gpkg.py
+│   │   │       ├── convert_geojson_gpkg.py
+│   │   │       ├── generate_gs3d_json.py
+│   │   │       └── patch_ply_sh.py
 │   │   ├── lidar-converter/SKILL.md
 │   │   ├── camera-converter/SKILL.md
 │   │   ├── init-toolchain/SKILL.md
@@ -62,6 +69,7 @@ oh-my-skills/
 | `lidar-converter` | LiDAR 手册 → aiSim 仿真配置（扫描模式 + 传感器配置） | 拿到新 LiDAR 手册需要生成配置 |
 | `camera-converter` | 相机标定参数 → aiSim Camera 配置 JSON | 更新/生成相机内参外参配置 |
 | `aisim-executor` | 执行 aiSim 仿真、导出传感器数据、触发验证 | 配置生成后需要端到端验证 |
+| `aisim-map-importer` | 中文 GPKG / PLY 点云 → aiSim 地图资产（含 OSM 构建、atlas 修复、gs3d.json 生成） | 拿到新采集场景需要导入 aiSim |
 | `init-toolchain` | 初始化 aiSim 工具链项目骨架 | 从零创建新工具链项目 |
 | `new-plugin` | 创建传感器/执行器插件脚手架 | 添加 camera/lidar/radar 等插件 |
 | `new-client` | 创建客户端应用脚手架 | 添加 runner/configurator 等应用 |
