@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "payload_size": 2012,
+  "endianness": "little",
+  "cdr_header_hex": "00010000",
+  "targets_offset": 72,
+  "target_stride": 48,
+  "target_count": 40,
+  "frame_id_offset": 24,
+  "fixed_float_48": 3.1796875,
+  "radar_ids": {
+    "radar_front": 40,
+    "radar_front_left": 41,
+    "radar_front_right": 42,
+    "radar_rear": 0,
+    "radar_rear_left": 43,
+    "radar_rear_right": 44
+  },
+  "frame_ids": {
+    "radar_front": "f_radar_data",
+    "radar_front_left": "fl_radar_data",
+    "radar_front_right": "fr_radar_data",
+    "radar_rear": "r_radar_data",
+    "radar_rear_left": "rl_radar_data",
+    "radar_rear_right": "rr_radar_data"
+  },
+  "fields": [
+    {
+      "name": "cluster_id",
+      "offset": 0,
+      "type": "uint8",
+      "source": "object raw byte 0; real payload stores extra flag bytes in 0..3"
+    },
+    {
+      "name": "confidence",
+      "offset": 4,
+      "type": "float32",
+      "source": "DBC RdrObjConf / FLR confidence-like value"
+    },
+    {
+      "name": "valid_flag",
+      "offset": 8,
+      "type": "uint8",
+      "source": "real state byte"
+    },
+    {
+      "name": "update_flag",
+      "offset": 9,
+      "type": "uint8",
+      "source": "real state byte"
+    },
+    {
+      "name": "cluster_dyn_prop",
+      "offset": 10,
+      "type": "uint8",
+      "source": "DBC motion pattern-like state byte"
+    },
+    {
+      "name": "x_std",
+      "offset": 12,
+      "type": "float32",
+      "source": "DBC x position std"
+    },
+    {
+      "name": "y_std",
+      "offset": 16,
+      "type": "float32",
+      "source": "DBC y position std"
+    },
+    {
+      "name": "vx_std",
+      "offset": 20,
+      "type": "float32",
+      "source": "DBC x velocity std"
+    },
+    {
+      "name": "ax_or_vx_abs",
+      "offset": 24,
+      "type": "float32",
+      "source": "real payload auxiliary velocity/acceleration field"
+    },
+    {
+      "name": "cluster_rcs",
+      "offset": 28,
+      "type": "float32",
+      "source": "RadarService obstacle probability / RCS-compatible score"
+    },
+    {
+      "name": "cluster_dist_long",
+      "offset": 32,
+      "type": "float32",
+      "source": "DBC X position / RdrObjDx"
+    },
+    {
+      "name": "cluster_dist_lat",
+      "offset": 36,
+      "type": "float32",
+      "source": "DBC Y position / RdrObjDy"
+    },
+    {
+      "name": "cluster_vrel_long",
+      "offset": 40,
+      "type": "float32",
+      "source": "DBC X velocity / RdrObjVxAbs"
+    },
+    {
+      "name": "cluster_vrel_lat",
+      "offset": 44,
+      "type": "float32",
+      "source": "DBC Y velocity / RdrObjVyAbs"
+    }
+  ]
+}

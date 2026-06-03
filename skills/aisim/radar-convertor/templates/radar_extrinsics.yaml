@@ -1,0 +1,31 @@
+# Provisional radar extrinsics for aiSim Radar replay.
+# Replace these values with measured/calibrated transforms when available.
+#
+# Coordinate convention: vehicle FLU, meters, degrees.
+# source=design_default means the value is an explicit bootstrap estimate,
+# not a measured calibration result.
+
+radar_front:
+  source: design_default
+  position: {x: 3.85, y: 0.0, z: 0.72}
+  rotation: {yaw: 0.0, pitch: 0.0, roll: 0.0}
+radar_front_left:
+  source: design_default
+  position: {x: 3.35, y: 0.78, z: 0.68}
+  rotation: {yaw: 55.0, pitch: 0.0, roll: 0.0}
+radar_front_right:
+  source: design_default
+  position: {x: 3.35, y: -0.78, z: 0.68}
+  rotation: {yaw: -55.0, pitch: 0.0, roll: 0.0}
+radar_rear:
+  source: design_default
+  position: {x: -1.1, y: 0.0, z: 0.72}
+  rotation: {yaw: 180.0, pitch: 0.0, roll: 0.0}
+radar_rear_left:
+  source: design_default
+  position: {x: -0.65, y: 0.82, z: 0.66}
+  rotation: {yaw: 125.0, pitch: 0.0, roll: 0.0}
+radar_rear_right:
+  source: design_default
+  position: {x: -0.65, y: -0.82, z: 0.66}
+  rotation: {yaw: -125.0, pitch: 0.0, roll: 0.0}

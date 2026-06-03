@@ -8,6 +8,7 @@
 |-------|------|-------------|
 | `lidar-converter` | LiDAR 产品手册 → aiSim 仿真配置（扫描模式 + 传感器配置） | 拿到新 LiDAR 手册需要生成 aiSim 配置 |
 | `camera-converter` | 相机标定参数（YAML）→ aiSim Camera 配置 JSON | 需要更新/生成相机内参外参配置 |
+| `radar-convertor` | aiSim Radar 配置/导出 → RadarService MCAP，并与真实 MCAP 做结构和字段分布对标 | 需要让算法直接回放仿真 radar 数据 |
 | `aisim-executor` | 执行 aiSim 仿真、导出传感器数据、触发验证 | 配置生成后需要端到端验证 |
 | `init-toolchain` | 初始化 aiSim 工具链项目骨架 | 从零开始创建新的工具链项目 |
 | `new-plugin` | 创建传感器/执行器插件脚手架 | 需要添加新的 camera/lidar/radar 插件 |
@@ -43,6 +44,23 @@ camera-converter              aisim-executor
 1. **camera-converter** 从标定 YAML 更新 Camera 配置 JSON（第一层验证）
 2. **aisim-executor** 导出图像（第二层验证）+ 畸变检测（第三层验证）
 
+### Radar 配置、MCAP 转换与真实数据对标
+
+```
+radar-convertor              aisim-executor              radar-convertor
+┌──────────────────┐       ┌──────────────────────┐     ┌──────────────────────┐
+│ 6 路 Advanced     │──────▶│ 仿真 → JSON 导出      │────▶│ RadarService MCAP     │
+│ radar 配置生成    │       │                      │     │ 结构验证 + 真实对标    │
+└──────────────────┘       └──────────────────────┘     └──────────────────────┘
+```
+
+1. **radar-convertor** 基于 AdvancedRadarRaytracer 模板生成 6 路 radar 配置，重点对齐外参、帧率、FOV、距离范围和 RCS/SNR 输出能力
+2. **aisim-executor** 执行仿真并导出每路 radar JSON
+3. **radar-convertor** 将 aiSim `captured_objects`/`targets` 转成 `hv_sensor_msgs/msg/RadarService` MCAP
+4. **radar-convertor** 验证 6 路 topic、800 帧、2012B payload、schema 名称，并输出与真实 MCAP 的字段分布对比报告
+
+当前版本能完成结构对齐和基础内容映射，但仍依赖逆向得到的 RadarService 格式；真实雷达内容分布、噪声模型、外参标定精度需要结合实车数据继续校准。
+
 ### 新项目初始化
 
 ```
@@ -77,6 +95,7 @@ aisim-map-importer
 | LiDAR | Hesai ATX100 | Flash (1D 摆镜) | ✅ 100% 匹配率 |
 | LiDAR | Hesai Pandar64 | Rotating (机械旋转) | ✅ 99.91% 匹配率 |
 | Camera | Bosch 11 相机 | Pinhole + Fisheye | ✅ 三层验证通过 |
+| Radar | FVR30/CVR30 对标 | AdvancedRadarRaytracer → RadarService MCAP | ⚠️ 结构对齐，内容分布待实车校准 |
 
 ## 安装
 

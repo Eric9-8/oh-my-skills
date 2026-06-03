@@ -1,0 +1,718 @@
+{
+  "sensors": {
+    "radar_front": {
+      "type": "radar",
+      "mounting": {
+        "position": [
+          3.85,
+          0.0,
+          0.72
+        ],
+        "rotation": {
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0
+        }
+      },
+      "update_intervals": [
+        50000
+      ],
+      "target_provider": "AdvancedRadarRaytracer",
+      "target_provider_config": {
+        "azimuth_resolution_deg": 6,
+        "elevation_resolution_deg": 8,
+        "signal_threshold_db": -100,
+        "azimuth_beam_width_deg": 1.2,
+        "elevation_beam_width_deg": 2.3,
+        "num_beam_samples": 2500,
+        "range_resolution_m": 0.22,
+        "num_reflections": 5,
+        "max_num_targets": 500
+      },
+      "frustum_config": {
+        "horizontal_fov_deg": 120.0,
+        "vertical_fov_deg": 28.0,
+        "depth_range": [
+          0.25,
+          260.0
+        ],
+        "viewport_resolution_scale": 10
+      },
+      "need_target_list": true,
+      "tracking_options": {
+        "redetect_noise_descriptor": {
+          "probability": 0.0,
+          "seed": 8671
+        },
+        "miss_noise_descriptor": {
+          "probability": 0.0,
+          "seed": 8672
+        }
+      },
+      "random_position": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          102,
+          12,
+          864
+        ]
+      },
+      "random_bbox": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          1102,
+          12,
+          684
+        ]
+      },
+      "random_acceleration": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          102,
+          12,
+          684
+        ]
+      },
+      "random_velocity": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          1102,
+          12,
+          684
+        ]
+      },
+      "visualize": false
+    },
+    "radar_front_left": {
+      "type": "radar",
+      "mounting": {
+        "position": [
+          3.35,
+          0.78,
+          0.68
+        ],
+        "rotation": {
+          "yaw": 55.0,
+          "pitch": 0.0,
+          "roll": 0.0
+        }
+      },
+      "update_intervals": [
+        50000
+      ],
+      "target_provider": "AdvancedRadarRaytracer",
+      "target_provider_config": {
+        "azimuth_resolution_deg": 6,
+        "elevation_resolution_deg": 8,
+        "signal_threshold_db": -100,
+        "azimuth_beam_width_deg": 1.2,
+        "elevation_beam_width_deg": 2.3,
+        "num_beam_samples": 2500,
+        "range_resolution_m": 0.22,
+        "num_reflections": 5,
+        "max_num_targets": 500
+      },
+      "frustum_config": {
+        "horizontal_fov_deg": 150.0,
+        "vertical_fov_deg": 20.0,
+        "depth_range": [
+          0.2,
+          160.0
+        ],
+        "viewport_resolution_scale": 10
+      },
+      "need_target_list": true,
+      "tracking_options": {
+        "redetect_noise_descriptor": {
+          "probability": 0.0,
+          "seed": 8671
+        },
+        "miss_noise_descriptor": {
+          "probability": 0.0,
+          "seed": 8672
+        }
+      },
+      "random_position": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          102,
+          12,
+          864
+        ]
+      },
+      "random_bbox": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          1102,
+          12,
+          684
+        ]
+      },
+      "random_acceleration": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          102,
+          12,
+          684
+        ]
+      },
+      "random_velocity": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          1102,
+          12,
+          684
+        ]
+      },
+      "visualize": false
+    },
+    "radar_front_right": {
+      "type": "radar",
+      "mounting": {
+        "position": [
+          3.35,
+          -0.78,
+          0.68
+        ],
+        "rotation": {
+          "yaw": -55.0,
+          "pitch": 0.0,
+          "roll": 0.0
+        }
+      },
+      "update_intervals": [
+        50000
+      ],
+      "target_provider": "AdvancedRadarRaytracer",
+      "target_provider_config": {
+        "azimuth_resolution_deg": 6,
+        "elevation_resolution_deg": 8,
+        "signal_threshold_db": -100,
+        "azimuth_beam_width_deg": 1.2,
+        "elevation_beam_width_deg": 2.3,
+        "num_beam_samples": 2500,
+        "range_resolution_m": 0.22,
+        "num_reflections": 5,
+        "max_num_targets": 500
+      },
+      "frustum_config": {
+        "horizontal_fov_deg": 150.0,
+        "vertical_fov_deg": 20.0,
+        "depth_range": [
+          0.2,
+          160.0
+        ],
+        "viewport_resolution_scale": 10
+      },
+      "need_target_list": true,
+      "tracking_options": {
+        "redetect_noise_descriptor": {
+          "probability": 0.0,
+          "seed": 8671
+        },
+        "miss_noise_descriptor": {
+          "probability": 0.0,
+          "seed": 8672
+        }
+      },
+      "random_position": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          102,
+          12,
+          864
+        ]
+      },
+      "random_bbox": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          1102,
+          12,
+          684
+        ]
+      },
+      "random_acceleration": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          102,
+          12,
+          684
+        ]
+      },
+      "random_velocity": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          1102,
+          12,
+          684
+        ]
+      },
+      "visualize": false
+    },
+    "radar_rear": {
+      "type": "radar",
+      "mounting": {
+        "position": [
+          -1.1,
+          0.0,
+          0.72
+        ],
+        "rotation": {
+          "yaw": 180.0,
+          "pitch": 0.0,
+          "roll": 0.0
+        }
+      },
+      "update_intervals": [
+        50000
+      ],
+      "target_provider": "AdvancedRadarRaytracer",
+      "target_provider_config": {
+        "azimuth_resolution_deg": 6,
+        "elevation_resolution_deg": 8,
+        "signal_threshold_db": -100,
+        "azimuth_beam_width_deg": 1.2,
+        "elevation_beam_width_deg": 2.3,
+        "num_beam_samples": 2500,
+        "range_resolution_m": 0.22,
+        "num_reflections": 5,
+        "max_num_targets": 500
+      },
+      "frustum_config": {
+        "horizontal_fov_deg": 120.0,
+        "vertical_fov_deg": 28.0,
+        "depth_range": [
+          0.25,
+          180.0
+        ],
+        "viewport_resolution_scale": 10
+      },
+      "need_target_list": true,
+      "tracking_options": {
+        "redetect_noise_descriptor": {
+          "probability": 0.0,
+          "seed": 8671
+        },
+        "miss_noise_descriptor": {
+          "probability": 0.0,
+          "seed": 8672
+        }
+      },
+      "random_position": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          102,
+          12,
+          864
+        ]
+      },
+      "random_bbox": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          1102,
+          12,
+          684
+        ]
+      },
+      "random_acceleration": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          102,
+          12,
+          684
+        ]
+      },
+      "random_velocity": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          1102,
+          12,
+          684
+        ]
+      },
+      "visualize": false
+    },
+    "radar_rear_left": {
+      "type": "radar",
+      "mounting": {
+        "position": [
+          -0.65,
+          0.82,
+          0.66
+        ],
+        "rotation": {
+          "yaw": 125.0,
+          "pitch": 0.0,
+          "roll": 0.0
+        }
+      },
+      "update_intervals": [
+        50000
+      ],
+      "target_provider": "AdvancedRadarRaytracer",
+      "target_provider_config": {
+        "azimuth_resolution_deg": 6,
+        "elevation_resolution_deg": 8,
+        "signal_threshold_db": -100,
+        "azimuth_beam_width_deg": 1.2,
+        "elevation_beam_width_deg": 2.3,
+        "num_beam_samples": 2500,
+        "range_resolution_m": 0.22,
+        "num_reflections": 5,
+        "max_num_targets": 500
+      },
+      "frustum_config": {
+        "horizontal_fov_deg": 150.0,
+        "vertical_fov_deg": 20.0,
+        "depth_range": [
+          0.2,
+          160.0
+        ],
+        "viewport_resolution_scale": 10
+      },
+      "need_target_list": true,
+      "tracking_options": {
+        "redetect_noise_descriptor": {
+          "probability": 0.0,
+          "seed": 8671
+        },
+        "miss_noise_descriptor": {
+          "probability": 0.0,
+          "seed": 8672
+        }
+      },
+      "random_position": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          102,
+          12,
+          864
+        ]
+      },
+      "random_bbox": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          1102,
+          12,
+          684
+        ]
+      },
+      "random_acceleration": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          102,
+          12,
+          684
+        ]
+      },
+      "random_velocity": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          1102,
+          12,
+          684
+        ]
+      },
+      "visualize": false
+    },
+    "radar_rear_right": {
+      "type": "radar",
+      "mounting": {
+        "position": [
+          -0.65,
+          -0.82,
+          0.66
+        ],
+        "rotation": {
+          "yaw": -125.0,
+          "pitch": 0.0,
+          "roll": 0.0
+        }
+      },
+      "update_intervals": [
+        50000
+      ],
+      "target_provider": "AdvancedRadarRaytracer",
+      "target_provider_config": {
+        "azimuth_resolution_deg": 6,
+        "elevation_resolution_deg": 8,
+        "signal_threshold_db": -100,
+        "azimuth_beam_width_deg": 1.2,
+        "elevation_beam_width_deg": 2.3,
+        "num_beam_samples": 2500,
+        "range_resolution_m": 0.22,
+        "num_reflections": 5,
+        "max_num_targets": 500
+      },
+      "frustum_config": {
+        "horizontal_fov_deg": 150.0,
+        "vertical_fov_deg": 20.0,
+        "depth_range": [
+          0.2,
+          160.0
+        ],
+        "viewport_resolution_scale": 10
+      },
+      "need_target_list": true,
+      "tracking_options": {
+        "redetect_noise_descriptor": {
+          "probability": 0.0,
+          "seed": 8671
+        },
+        "miss_noise_descriptor": {
+          "probability": 0.0,
+          "seed": 8672
+        }
+      },
+      "random_position": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          102,
+          12,
+          864
+        ]
+      },
+      "random_bbox": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          1102,
+          12,
+          684
+        ]
+      },
+      "random_acceleration": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          102,
+          12,
+          684
+        ]
+      },
+      "random_velocity": {
+        "expected_value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "standard_deviation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "seed": [
+          1102,
+          12,
+          684
+        ]
+      },
+      "visualize": false
+    }
+  }
+}

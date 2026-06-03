@@ -28,6 +28,7 @@ oh-my-skills/
 │   │   │       └── patch_ply_sh.py
 │   │   ├── lidar-converter/SKILL.md
 │   │   ├── camera-converter/SKILL.md
+│   │   ├── radar-convertor/SKILL.md
 │   │   ├── init-toolchain/SKILL.md
 │   │   ├── new-plugin/SKILL.md
 │   │   └── new-client/SKILL.md
@@ -68,6 +69,7 @@ oh-my-skills/
 |---|---|---|
 | `lidar-converter` | LiDAR 手册 → aiSim 仿真配置（扫描模式 + 传感器配置） | 拿到新 LiDAR 手册需要生成配置 |
 | `camera-converter` | 相机标定参数 → aiSim Camera 配置 JSON | 更新/生成相机内参外参配置 |
+| `radar-convertor` | aiSim Radar 配置/导出 → RadarService MCAP，并与真实 MCAP 做结构和字段分布对标 | 需要让算法直接回放仿真 radar 数据 |
 | `aisim-executor` | 执行 aiSim 仿真、导出传感器数据、触发验证 | 配置生成后需要端到端验证 |
 | `aisim-map-importer` | 中文 GPKG / PLY 点云 → aiSim 地图资产（含 OSM 构建、atlas 修复、gs3d.json 生成） | 拿到新采集场景需要导入 aiSim |
 | `init-toolchain` | 初始化 aiSim 工具链项目骨架 | 从零创建新工具链项目 |
@@ -106,8 +108,9 @@ oh-my-skills/
 1. 安装 aiSim Skills：`cp -R skills/aisim/* ~/.claude/skills/`
 2. 按照 `lidar-converter → aisim-executor` 链路完成 LiDAR 配置与端到端验证
 3. 或按照 `camera-converter → aisim-executor` 链路完成 Camera 配置与三层验证
-4. 新项目使用 `init-toolchain → new-plugin → new-client` 快速搭建工具链骨架
-5. 详见 `skills/aisim/README.md`
+4. 或按照 `radar-convertor → aisim-executor → radar-convertor` 链路完成 Radar 配置、导出、MCAP 转换和真实数据对标
+5. 新项目使用 `init-toolchain → new-plugin → new-client` 快速搭建工具链骨架
+6. 详见 `skills/aisim/README.md`
 
 ## 安全说明
 
