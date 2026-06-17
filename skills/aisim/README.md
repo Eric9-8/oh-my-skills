@@ -14,6 +14,7 @@
 | `new-plugin` | 创建传感器/执行器插件脚手架 | 需要添加新的 camera/lidar/radar 插件 |
 | `new-client` | 创建客户端应用脚手架 | 需要添加新的 runner/configurator/monitor 等应用 |
 | `aisim-map-importer` | 将中文供应商 GPKG / PLY 点云导入 aiSim（含 OSM 路网构建、atlas 修复、gs3d.json 生成） | 拿到新采集场景需要导入 aiSim 地图 |
+| `aisim-hil-mcap-packager` | aiSim HIL 导出 → 对齐真实路测 MCAP 的 raw sensor / vehicle 回放包，并生成字段级自检报告 | 需要把仿真数据交付给算法回放时 |
 
 ## 推荐工作流
 
@@ -61,6 +62,21 @@ radar-convertor              aisim-executor              radar-convertor
 
 当前版本能完成结构对齐和基础内容映射，但仍依赖逆向得到的 RadarService 格式；真实雷达内容分布、噪声模型、外参标定精度需要结合实车数据继续校准。
 
+
+### HIL MCAP 打包与交付自检
+
+```
+aisim-executor / GUI export        aisim-hil-mcap-packager
+┌──────────────────────────┐     ┌──────────────────────────────┐
+│ camera-only / no-camera  │────▶│ MCAP build + validation       │
+│ split export             │     │ CDR/time/calibration/dry-run  │
+└──────────────────────────┘     └──────────────────────────────┘
+```
+
+1. **aisim-executor** 或 aiSim GUI 分别导出 camera-only 与 no-camera 数据，避免 full perception 在重地图上耗尽 VRAM。
+2. **aisim-hil-mcap-packager** 使用真实 MCAP 合同、IMU 外参、recorder 标定元数据和 per-camera CRF 策略打包 MCAP。
+3. 交付前必须通过结构 validator、time/calibration validator、字段级 dry-run 和 HTML 自检报告。
+
 ### 新项目初始化
 
 ```
@@ -96,6 +112,7 @@ aisim-map-importer
 | LiDAR | Hesai Pandar64 | Rotating (机械旋转) | ✅ 99.91% 匹配率 |
 | Camera | Bosch 11 相机 | Pinhole + Fisheye | ✅ 三层验证通过 |
 | Radar | FVR30/CVR30 对标 | AdvancedRadarRaytracer → RadarService MCAP | ⚠️ 结构对齐，内容分布待实车校准 |
+| HIL MCAP | raw camera/lidar/radar/vehicle | aiSim export → ROS2-profile MCAP | ✅ 结构、时间、CDR、dry-run 自检通过 |
 
 ## 安装
 

@@ -1,0 +1,6 @@
+interface:
+  display_name: "aiSim HIL MCAP Packager"
+  short_description: "Package and validate aiSim HIL MCAP replay files"
+  default_prompt: "Use $aisim-hil-mcap-packager to build and validate an aiSim HIL MCAP against the real reference package."
+policy:
+  allow_implicit_invocation: true

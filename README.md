@@ -29,6 +29,7 @@ oh-my-skills/
 │   │   ├── lidar-converter/SKILL.md
 │   │   ├── camera-converter/SKILL.md
 │   │   ├── radar-convertor/SKILL.md
+│   │   ├── aisim-hil-mcap-packager/SKILL.md
 │   │   ├── init-toolchain/SKILL.md
 │   │   ├── new-plugin/SKILL.md
 │   │   └── new-client/SKILL.md
@@ -72,6 +73,7 @@ oh-my-skills/
 | `radar-convertor` | aiSim Radar 配置/导出 → RadarService MCAP，并与真实 MCAP 做结构和字段分布对标 | 需要让算法直接回放仿真 radar 数据 |
 | `aisim-executor` | 执行 aiSim 仿真、导出传感器数据、触发验证 | 配置生成后需要端到端验证 |
 | `aisim-map-importer` | 中文 GPKG / PLY 点云 → aiSim 地图资产（含 OSM 构建、atlas 修复、gs3d.json 生成） | 拿到新采集场景需要导入 aiSim |
+| `aisim-hil-mcap-packager` | aiSim HIL 导出 → 对齐真实路测 MCAP 的 raw sensor / vehicle 回放包，并生成自检报告 | 需要交付可回放给算法的仿真 MCAP |
 | `init-toolchain` | 初始化 aiSim 工具链项目骨架 | 从零创建新工具链项目 |
 | `new-plugin` | 创建传感器/执行器插件脚手架 | 添加 camera/lidar/radar 等插件 |
 | `new-client` | 创建客户端应用脚手架 | 添加 runner/configurator 等应用 |
