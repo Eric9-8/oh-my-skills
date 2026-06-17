@@ -18,6 +18,7 @@ Also supports building a GPKG from scratch using OSM data from overpass-turbo.eu
 |-----------|------|
 | GPKG already exists (Chinese layers) | Step 1 → convert Chinese GPKG |
 | GPKG already exists (standard) | Skip Step 1, use as-is |
+| No GPKG — manual QGIS workflow | **Step 0-manual: guided QGIS → validate** |
 | No GPKG — only PLY / HPGS available | **Step 0: build GPKG from OSM** |
 
 ## Workflow
@@ -30,6 +31,176 @@ When invoked, ask the user for:
 4. **Map name** — defaults to filename stem
 
 Then execute:
+
+### Step 0-manual: Manual QGIS Workflow (when OSM data is insufficient)
+
+当OSM数据不可用或质量不足时，可以使用QGIS手动绘制路网。
+
+#### 前提条件
+- PLY点云文件
+- CloudCompare导出的栅格底图（raster.tif）
+- QGIS 3.x
+
+#### 工作流程
+
+**1. 准备工作环境**
+
+```bash
+# 创建QGIS工作目录
+mkdir -p qgis_project
+cd qgis_project
+
+# 生成空白GeoPackage模板（使用临时GPS坐标）
+/opt/aiMotive/atlas/atlas_python/bin/python3 \
+  <project_root>/create_aisim_geopackage.py \
+  --lat <temp_lat> --lon <temp_lon> \
+  -o road_network.gpkg
+```
+
+**2. 在CloudCompare中导出栅格底图**
+
+- 打开PLY点云
+- Tools → Projection → Rasterize
+- 分辨率设置：0.05-0.1米/像素
+- 导出GeoTIFF格式（raster.tif）
+
+**3. QGIS手动绘制**
+
+```bash
+qgis road_network.gpkg
+```
+
+- 加载raster.tif作为参考底图
+- 绘制RoadShapes（道路表面多边形，优先级最高）
+- 绘制RoadMarks（道路标线，填写color/type/width等属性）
+- 可选：绘制Crosswalks、StopLines
+
+绘制技巧：
+- 放大到1:100～1:500比例尺
+- 启用捕捉（顶点、线段、交叉点）
+- 使用顶点工具(V键)调整形状
+- 每绘制5-10个要素保存一次
+
+**4. 坐标配准**
+
+通过Google Earth确定场景GPS坐标：
+- 观察栅格底图中的道路走向、交叉口形状
+- 在Google Earth中搜索匹配的道路场景
+- 记录场景中心点的GPS坐标
+
+重新生成带GPS坐标的GeoPackage：
+
+```bash
+/opt/aiMotive/atlas/atlas_python/bin/python3 \
+  create_aisim_geopackage.py \
+  --lat <real_lat> --lon <real_lon> \
+  -o road_network_georef.gpkg
+
+# 自动迁移手绘数据（复制粘贴所有要素到新GPKG）
+# 或使用QGIS批量重投影工具
+```
+
+**5. 生成gs3d.json（关键步骤）**
+
+⚠️ **重要警告**：必须使用GeoPackage中心的GPS坐标，而非投影原点！
+
+```bash
+# 第1步：计算GeoPackage中心的墨卡托坐标
+ogrinfo -al -so road_network_georef.gpkg RoadShapes | grep Extent
+# 输出示例：Extent: (-130016, -13344) - (-129979, -13137)
+
+# 计算中心：
+# E_center = (x_min + x_max) / 2
+# N_center = (y_min + y_max) / 2
+
+# 第2步：转换为GPS坐标
+/opt/aiMotive/atlas/atlas_python/bin/python3 - <<'EOF'
+from pyproj import CRS, Transformer
+
+# 从GeoPackage读取的投影原点（在坐标配准时设置的）
+proj_origin_lat = <投影原点纬度>
+proj_origin_lon = <投影原点经度>
+
+# 从Extent计算的GeoPackage中心（墨卡托坐标）
+gpkg_center_e = <E_center>  # 替换为实际计算值
+gpkg_center_n = <N_center>  # 替换为实际计算值
+
+# 构建横轴墨卡托投影字符串
+proj4 = f"+proj=tmerc +lat_0={proj_origin_lat} +lon_0={proj_origin_lon} +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs"
+
+# 墨卡托 → WGS84
+t = Transformer.from_crs(CRS.from_proj4(proj4), CRS.from_epsg(4326), always_xy=True)
+lon_center, lat_center = t.transform(gpkg_center_e, gpkg_center_n)
+
+print(f"GeoPackage中心GPS: {lat_center}°N, {lon_center}°E")
+print(f"\n使用这些坐标生成gs3d.json:")
+print(f"  --lat {lat_center}")
+print(f"  --lon {lon_center}")
+EOF
+
+# 第3步：使用计算出的GPS坐标生成gs3d.json
+/opt/aiMotive/atlas/atlas_python/bin/python3 \
+  generate_gs3d_aligned.py \
+  --ply point_cloud.ply \
+  --output gs3d.json \
+  --lat <lat_center> \
+  --lon <lon_center>
+```
+
+**为什么必须使用GeoPackage中心GPS坐标？**
+
+GeoPackage使用相对坐标系（横轴墨卡托投影），其数据中心可能距离投影原点很远（如130km）。如果直接使用投影原点生成gs3d.json，会导致PLY点云与GeoPackage路网严重偏移。
+
+示例：
+```
+GeoPackage投影原点: (31.1256°N, 121.3611°E) → 墨卡托坐标 (0, 0)
+GeoPackage中心: 墨卡托坐标 (-130km, -13km)
+GeoPackage中心GPS: (30.9990°N, 120.0000°E)
+
+如果使用投影原点 → PLY映射到 (31.1256°N, 121.3611°E)
+而GeoPackage在 → (30.9990°N, 120.0000°E)
+偏移距离 = 130.7 km ← 在RT_tool中完全看不到点云！
+```
+
+**6. 验证GPKG格式**
+
+```bash
+/opt/aiMotive/atlas/atlas_python/bin/python3 -c "
+import fiona
+gpkg = 'road_network_georef.gpkg'
+for layer in ['RoadMarks', 'RoadShapes']:
+    with fiona.open(gpkg, layer=layer) as src:
+        print(f'{layer}: {len(src)} features')
+        if len(src) == 0:
+            print(f'⚠️  {layer}图层为空！')
+"
+```
+
+**验证通过后，设置 `STD_GPKG="$WORK_DIR/road_network_georef.gpkg"` 并继续到 Step 2。**
+
+#### 常见问题
+
+**Q1: 在RT_tool中点云与路网偏移130km？**
+- **原因**：gs3d.json使用了投影原点，而GeoPackage中心距离投影原点130km
+- **解决**：按上述第5步重新计算GeoPackage中心的GPS坐标，重新生成gs3d.json
+
+**Q2: QGIS中绘制的路网要素太少？**
+- 手动绘制GPKG是基础版本，重点是RoadShapes和关键RoadMarks
+- 可以后续在QGIS中补充更多要素
+
+**Q3: 需要哪些图层？**
+- **必需**：RoadShapes（道路表面）
+- **重要**：RoadMarks（道路标线，至少绘制主要车道线）
+- **可选**：Crosswalks, StopLines, SidewalkShapes
+
+#### 参考文档
+
+详细的QGIS绘制指南请参考：
+- `<project_root>/CloudCompare_QGIS完整操作指南.md`
+- `<project_root>/QGIS绘制快速参考.txt`
+- `<project_root>/坐标配准完整流程.md`
+
+---
 
 ### Step 0: Build GPKG from OSM (only when no GPKG is available)
 
@@ -455,6 +626,59 @@ or replace with an HD map source.
 **Workaround**: 使用次优分片（如 `point_cloud_1.ply`，18.4M 顶点）替代完整点云，
 直到 aiSim 团队修复该限制。已提交 Jira 给 aiSim 团队排查。
 **Threshold estimate**: 18.4M（正常）< 阈值 ≤ 37.2M，2^25（33.6M）是候选边界。
+
+### 11. 手动绘制GPKG时PLY点云与路网严重偏移
+
+**Cause**: gs3d.json的RT平移向量使用了横轴墨卡托投影原点的GPS坐标，
+而GeoPackage中心距离投影原点可能有数十至数百公里。
+当GeoPackage使用相对坐标系（坐标原点为(0,0)）时，场景实际位置可能
+在投影原点的远处（如-130km, -13km），导致PLY映射到错误的位置。
+
+**Symptoms**: 在RT_tool中，"地图固定到原点"视角下看不到PLY点云，
+或PLY点云与GeoPackage路网相距数十至数百公里。
+
+**Diagnosis**:
+```
+GeoPackage投影原点: (31.1256°N, 121.3611°E) → 墨卡托坐标 (0, 0)
+GeoPackage中心: 墨卡托坐标 (-130km, -13km)
+实际GPS坐标: (30.9990°N, 120.0000°E)
+
+如果gs3d.json使用投影原点:
+  PLY映射到 → (31.1256°N, 121.3611°E)
+  GeoPackage在 → (30.9990°N, 120.0000°E)
+  偏移 = 130.7 km
+```
+
+**Fix**: 计算GeoPackage中心的GPS坐标（而非投影原点），使用该坐标生成gs3d.json：
+
+```bash
+# 1. 从GeoPackage读取实际坐标范围
+ogrinfo -al -so road_network.gpkg RoadShapes | grep Extent
+# 输出：Extent: (x_min, y_min) - (x_max, y_max)
+
+# 2. 计算中心（墨卡托坐标）
+# gpkg_center_e = (x_min + x_max) / 2
+# gpkg_center_n = (y_min + y_max) / 2
+
+# 3. 墨卡托 → WGS84
+/opt/aiMotive/atlas/atlas_python/bin/python3 - <<'EOF'
+from pyproj import CRS, Transformer
+proj_origin_lat = <投影原点纬度>
+proj_origin_lon = <投影原点经度>
+gpkg_center_e = <E_center>
+gpkg_center_n = <N_center>
+
+proj4 = f"+proj=tmerc +lat_0={proj_origin_lat} +lon_0={proj_origin_lon} +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs"
+t = Transformer.from_crs(CRS.from_proj4(proj4), CRS.from_epsg(4326), always_xy=True)
+lon_center, lat_center = t.transform(gpkg_center_e, gpkg_center_n)
+print(f"{lat_center},{lon_center}")
+EOF
+
+# 4. 使用GeoPackage中心GPS坐标生成gs3d.json
+generate_gs3d_aligned.py --lat <lat_center> --lon <lon_center>
+```
+
+**Verification**: 在RT_tool中重新加载地图，PLY点云应与GeoPackage路网完美重合。
 
 ## Example
 
